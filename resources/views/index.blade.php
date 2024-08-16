@@ -10,14 +10,16 @@
             display: flex;
             margin: 0;
             font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
         }
         .sidebar {
-            width: 250px;
+            width: 300px;
             background-color: #ccc;
             padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
+            height: 100vh;
         }
         .sidebar img {
             max-width: 100%;
@@ -26,17 +28,21 @@
         .sidebar a {
             display: block;
             padding: 10px;
-            margin: 10px 0;
+            margin: 20px 0;
             background-color: white;
             text-align: center;
             text-decoration: none;
             color: black;
             border-radius: 5px;
+            width: 100%;
+        }
+        .sidebar a:hover {
+            background-color: #ddd;
         }
         .main-content {
             flex-grow: 1;
             padding: 20px;
-            background-color: #f5f5f5;
+            margin-left: 250px;
         }
         .top-bar {
             display: flex;
@@ -53,15 +59,34 @@
             width: 300px;
         }
         .calendar, .agenda {
-            margin: 20px 0;
+            margin: 50px 0;
         }
         .calendar {
             text-align: center;
+        }
+        .calendar table {
+            margin: 50 auto;
+            border-collapse: collapse;
+        }
+        .calendar th, .calendar td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+        .calendar th {
+            background-color: #f0f0f0;
         }
         .agenda {
             background-color: white;
             padding: 20px;
             border-radius: 10px;
+            
+        }
+        .agenda-item {
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            margin: 50 auto;
         }
     </style>
 </head>
@@ -69,7 +94,7 @@
     <div class="sidebar">
         <img src="path_to_image/logo.png" alt="Logo">
         <a href="#">Agenda</a>
-        <a href="#">Dasboard 2</a>
+        <a href="#">Dashboard 2</a>
         <a href="#">Akun</a>
     </div>
     <div class="main-content">
@@ -81,16 +106,16 @@
         </div>
 
         <div class="calendar">
-            <p>january</p>
+            <p>January</p>
             <table>
                 <tr>
-                    <th>mon</th>
+                    <th>Mon</th>
                     <th>Tue</th>
                     <th>Wed</th>
                     <th>Thu</th>
-                    <th>fri</th>
-                    <th>sat</th>
-                    <th>sun</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
                 </tr>
                 <tr>
                     <td>1</td>
@@ -101,16 +126,16 @@
                     <td>6</td>
                     <td>7</td>
                 </tr>
-                <!-- Tambahkan baris lainnya sesuai kebutuhan -->
+                <!-- Add more rows as needed -->
             </table>
         </div>
 
         <div class="agenda">
             <h2>Agenda</h2>
-            <div class="agenda-item"></div>
-            <div class="agenda-item"></div>
-            <div class="agenda-item"></div>
-            <div class="agenda-item"></div>
+            <div class="agenda-item">Agenda item 1</div>
+            <div class="agenda-item">Agenda item 2</div>
+            <div class="agenda-item">Agenda item 3</div>
+            <div class="agenda-item">Agenda item 4</div>
         </div>
     </div>
 </body>

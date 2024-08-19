@@ -20,8 +20,15 @@ Route::get('/', function () {
 
 Auth::routes();
 
+// Rute untuk dashboard
 Route::middleware(['auth'])->group(function () {
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Rute untuk halaman index
+    Route::get('/index', [DashboardController::class, 'index'])->name('index');
 });
 
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+// Mengarahkan pengguna ke dashboard setelah login
+Route::get('/home', function() {
+    return redirect()->route('dashboard');
+})->name('home');

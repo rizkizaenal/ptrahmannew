@@ -14,6 +14,7 @@ class RedirectIfAuthenticated
      * Handle an incoming request.
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function handle(Request $request, Closure $next, string ...$guards): Response
     {
@@ -21,7 +22,7 @@ class RedirectIfAuthenticated
 
         foreach ($guards as $guard) {
             if (Auth::guard($guard)->check()) {
-                return redirect(RouteServiceProvider::DASHBOARD);
+                return redirect(RouteServiceProvider::index);
             }
         }
 

@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
-/*
+use App\Http\Controllers\AgendaController;
+use Illuminate\Support\Facades\Auth;/*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
@@ -21,14 +22,12 @@ Route::get('/', function () {
 Auth::routes();
 
 // Rute untuk dashboard
-Route::middleware(['auth'])->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+ Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
+
+// routes/web.php
+Route::resource('agenda', AgendaController::class);
+Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
 
     // Rute untuk halaman index
-    Route::get('/index', [DashboardController::class, 'index'])->name('index');
-});
-
-// Mengarahkan pengguna ke dashboard setelah login
-Route::get('/home', function() {
-    return redirect()->route('dashboard');
-})->name('home');
+ 
+// Mengarahkan pengguna ke dashboard setelah login

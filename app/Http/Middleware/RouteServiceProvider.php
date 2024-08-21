@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route; // Import Route facade
 
 class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
     /**
-     * Menentukan ke mana pengguna harus diarahkan setelah login.
+     * Tempat untuk mengarahkan pengguna setelah login.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  mixed  $user
@@ -20,8 +19,8 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        // Redirect ke named route 'index'
-        return redirect()->intended(route('index'));
+        // Arahkan ke rute atau URL yang spesifik setelah login
+        return redirect()->intended('/index'); // Ganti '/home' dengan rute yang diinginkan
     }
 
     /**

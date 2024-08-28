@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AgendaController;
+use App\Http\Controllers\AtensiController;
 use Illuminate\Support\Facades\Auth;/*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,9 +26,8 @@ Auth::routes();
  Route::get('/dashboard', [DashboardController::class, 'index'])->name('index');
 
 // routes/web.php
-Route::resource('agenda', AgendaController::class);
 Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
+Route::post('/agenda', [AgendaController::class, 'store'])->name('agenda.store');
+Route::post('/forms-atensi', [App\Http\Controllers\AtensiController::class, 'store'])->name('forms.atensi.store');
+Route::get('/atensi', [AtensiController::class, 'index'])->name('forms.atensi');
 
-    // Rute untuk halaman index
- 
-// Mengarahkan pengguna ke dashboard setelah login

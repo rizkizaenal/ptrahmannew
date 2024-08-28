@@ -11,8 +11,8 @@
             color: #333;
         }
         .sidebar {
-            width: 300px;
-            background-color: #C9DABF; /* Updated background color */
+            width: 250px;
+            background-color: #AAB396;
             padding: 20px;
             display: flex;
             flex-direction: column;
@@ -20,33 +20,10 @@
             height: 100vh;
             position: fixed;
         }
-        .sidebar img {
-            max-width: 70%;
-            height: auto;
-            margin-bottom: 20px;
-        }
         .main-content {
             margin-left: 300px;
-            padding: 20px;
+            padding: 10px;
         }
-        .calendar {
-            margin: 50px auto; /* Center the calendar horizontally */
-            max-width: 600px;  /* Set maximum width for calendar */
-            width: 100%;       /* Make sure calendar uses full width of container */
-        }
-
-        .calendar table {
-            width: 100%; /* Full width of .calendar container */
-            border-collapse: collapse; /* Remove space between borders */
-        }
-
-        .calendar th, .calendar td {
-            padding: 10px; /* Padding inside cells */
-            border: 1px solid #CCC; /* Cell border */
-            text-align: center; /* Center text */
-            font-size: 14px; /* Font size for table text */
-        }
-        
         h2 {
             text-align: center;
         }
@@ -64,13 +41,13 @@
         }
         .search-bar {
             position: relative;
-            width: 90%; /* Ensure it spans the full width of its container */
+            width: 60%; /* Kurangi lebar untuk menyesuaikan elemen lainnya */
         }
         .search-bar input {
-            width: 100%; /* Make input field span full width of search-bar */
-            padding: 10px 40px 10px 10px; /* Add padding and space for the icon */
-            border: 1px solid #ccc; /* Light border for input field */
-            border-radius: 5px; /* Round the corners of the input */
+            width: 100%;
+            padding: 10px 40px 10px 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
         .search-bar .search-icon {
             position: absolute;
@@ -80,15 +57,67 @@
             font-size: 18px;
             color: #6c757d;
         }
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px 20px;
+            background-color: #f8f9fa;
+            position: relative; /* Tambahkan ini untuk memposisikan elemen secara absolut */
+        }
+
+        .top-bar img {
+            max-width: 50px;
+            height: auto;
+            margin-right: 10px;
+            position: absolute;
+            left: 10px; /* Tempatkan logo lebih dekat ke kiri */
+            top: 50%; /* Tempatkan di tengah secara vertikal */
+            transform: translateY(-50%); /* Untuk memastikan logo berada di tengah */
+        }
+
+        .title {
+            position: absolute;
+            left: 100px; /* Geser judul ke kanan setelah logo */
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .agenda {
+            position: relative;
+            text-align: center;
+            color: black;
+        }
+
+        .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .overlay-text h2 {
+            font-size: 36px;
+            font-weight: bold;
+        }
+
+        .overlay-text p {
+            font-size: 18px;
+            margin-top: 10px;
+        } 
     </style>
 </head>
 <body>
     <div class="d-flex">
         <div class="sidebar">
-            <img src="{{ asset('img/lapas.png') }}" alt="Logo">
             <a href="{{ route('agenda.create') }}" class="btn btn-outline-light w-100 mb-2">Agenda</a>
-            <a href="#" class="btn btn-outline-light w-100 mb-2">Atensi</a>
-            <!-- Start of Account Dropdown -->
+            <a href="{{ route('forms.atensi') }}" class="btn btn-outline-light w-100 mb-2">Atensi</a>
             <div class="dropdown w-100 mb-2">
                 <button class="btn btn-outline-light dropdown-toggle w-100" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     Akun
@@ -106,87 +135,40 @@
                     </li>
                 </ul>
             </div>
-            <!-- End of Account Dropdown -->
         </div>
-        <div class="main-content container-fluid p-0">
-            <div class="top-bar d-flex justify-content-between align-items-center mb-4">
-                <span class="menu-icon">☰</span>
+        <div class="main-content">
+            <div class="top-bar d-flex justify-content-between align-items-center">
+                <div class="d-flex align-items-center">
+                    <img src="{{ asset('img/lapas.png') }}" alt="Logo">
+                    <span class="title">JurnalLasgar</span>
+                </div>
                 <div class="search-bar">
                     <input type="text" class="form-control" placeholder="Search">
                     <i class="fas fa-search search-icon"></i>
                 </div>
+                <div class="d-flex align-items-center">
+                    <i class="far fa-bell fa-2x me-3"></i>
+                    <img src="{{ asset('img/user.png') }}" alt="User" class="img-fluid rounded-circle" width="40">
+                </div>
             </div>
+            <div class="agenda position-relative">
+                <img src="{{ asset('img/lapas2.jpg') }}" alt="Banner" class="img-fluid">
+                <div class="overlay-text">
+                    <h2>S.I.A.P LAPAS KELAS IIB GARUT</h2>
+                    <p>Sistem Informasi Agenda Pemasyarakatan</p>
+                </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h4 style="text-align: left;">Reports / Today</h4>
+<div class="agenda-item" style="text-align: left;">Agenda item 1</div>
+<div class="agenda-item" style="text-align: left;">Agenda item 2</div>
+<div class="agenda-item" style="text-align: left;">Agenda item 3</div>
+<div class="agenda-item" style="text-align: left;">Agenda item 4</div>
 
-            <div class="calendar">
-                <h2 class="text-center">January</h2>
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Mon</th>
-                            <th>Tue</th>
-                            <th>Wed</th>
-                            <th>Thu</th>
-                            <th>Fri</th>
-                            <th>Sat</th>
-                            <th>Sun</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                        </tr>
-                        <tr>
-                            <td>8</td>
-                            <td>9</td>
-                            <td>10</td>
-                            <td>11</td>
-                            <td>12</td>
-                            <td>13</td>
-                            <td>14</td>
-                        </tr>
-                        <tr>
-                            <td>15</td>
-                            <td>16</td>
-                            <td>17</td>
-                            <td>18</td>
-                            <td>19</td>
-                            <td>20</td>
-                            <td>21</td>
-                        </tr>
-                        <tr>
-                            <td>22</td>
-                            <td>23</td>
-                            <td>24</td>
-                            <td>25</td>
-                            <td>26</td>
-                            <td>27</td>
-                            <td>28</td>
-                        </tr>
-                        <tr>
-                            <td>29</td>
-                            <td>30</td>
-                            <td>31</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="agenda">
-                <h2>Agenda</h2>
-                <div class="agenda-item">Agenda item 1</div>
-                <div class="agenda-item">Agenda item 2</div>
-                <div class="agenda-item">Agenda item 3</div>
-                <div class="agenda-item">Agenda item 4</div>
             </div>
         </div>
     </div>

@@ -1,30 +1,32 @@
 <?php
+
 namespace App\Http\Controllers;
 
+use App\Models\Agenda;
 use Illuminate\Http\Request;
-use App\Models\Agenda; // Pastikan model Agenda sudah dibuat
 
 class AgendaController extends Controller
 {
-    /**
-     * Store a newly created agenda in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
+    // Metode untuk menampilkan form input agenda
+    public function create()
+    {
+        return view('agenda.create'); // Gantilah 'agenda.create' dengan nama view yang sesuai
+    }
+
+    // Metode untuk menyimpan data agenda
     public function store(Request $request)
     {
-        // Validasi input
+        // Validasi data yang dikirimkan
         $validatedData = $request->validate([
-            'title'       => 'required|max:255',
-            'description' => 'required',
-            'date'        => 'required|date',
+            'nama' => 'required|string|max:255',
+            'keterangan' => 'required|string',
+            'tanggal' => 'required|date',
         ]);
 
-        // Simpan data ke database
+        // Membuat entri baru di tabel agendas
         Agenda::create($validatedData);
 
-        // Redirect ke halaman yang sesuai, misalnya ke daftar agenda
-        return redirect()->route('agenda.index')->with('success', 'Agenda created successfully.');
+        // Redirect ke halaman yang diinginkan
+        return redirect()->route('agenda.index')->with('success', 'Agenda created successfully!');
     }
 }

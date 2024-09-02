@@ -8,18 +8,23 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #fff;
-            color: #fff;
+            background-color: #f8f9fa;
+            color: #343a40;
+            margin: 0;
+            padding: 0;
         }
 
         .top-bar {
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 10px 20px;
-            border-bottom: 1px solid #E0E0E0;
+            border-bottom: 1px solid #e0e0e0;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            position: fixed;
             width: 100%;
+            top: 0;
+            z-index: 1000;
         }
 
         .top-bar img.logo {
@@ -58,7 +63,6 @@
         .user-profile {
             display: flex;
             align-items: center;
-            color: #000;
         }
 
         .user-profile img {
@@ -70,36 +74,53 @@
 
         .sidebar-and-content {
             display: flex;
-            align-items: flex-start;
-            justify-content: flex-start;
-            padding-top: 20px;
+            margin-top: 60px;
         }
 
         .sidebar {
-            display: flex;
-            flex-direction: column;
             width: 250px;
-            align-items: flex-start;
-            margin-right: 200px; /* Pengurangan jarak sidebar */
-            padding: 10px;
-            
+            background-color: #fff;
+            padding: 20px;
+            position: fixed;
+            top: 60px;
+            left: 0;
+            height: calc(100vh - 60px);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
         }
 
         .sidebar a {
-            width: 100%;
+            display: block;
+            padding: 10px 15px;
+            color: #333;
+            text-decoration: none;
             margin-bottom: 10px;
-            background-color: #E1D7C6;
+            border-radius: 5px;
+        }
+
+        .sidebar a:hover {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .main-content {
+            flex-grow: 1;
+            padding: 20px;
+            margin-left: 270px;
+            background-color: #ffffff;
+            border-left: 1px solid #dee2e6;
         }
 
         .banner {
-            flex-grow: 1;
             position: relative;
             text-align: center;
+            margin-bottom: 20px;
         }
 
         .banner img {
-            max-width: 100%;
+            width: 100%;
             height: auto;
+            border-radius: 5px;
         }
 
         .overlay-text {
@@ -121,23 +142,46 @@
             margin-top: 10px;
         }
 
-        .main-content {
-            flex-grow: 1; /* Membuat main-content mengikuti lebar banner */
-            padding: 20px; /* Menghilangkan padding tambahan */
-            
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 20px;
         }
-        
+
+        .breadcrumb-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item.active {
+            color: #6c757d;
+        }
+
         .agenda-item {
             padding: 10px;
             margin-bottom: 10px;
-            background-color: #E7F0DC;
+            background-color: #e7f0dc;
             border-radius: 5px;
-            width: 75%;
-            color: black;
-            text-align: left;
-            margin-left: auto;
+            color: #000;
         }
-        
+
+        .dropdown-menu {
+            padding: 10px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 5px 0;
+            color: black;
+            text-decoration: none;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 
@@ -159,19 +203,29 @@
         </div>
         <div class="sidebar-and-content">
             <div class="sidebar">
-                <a href="{{ route('agenda.create') }}" class="btn btn-outline-dark">Agenda</a>
-                <a href="{{ route('forms.atensi') }}" class="btn btn-outline-dark">Atensi</a>
+                <a href="#">Dashboard</a>
+                <a href="#">Components</a>
                 <div class="dropdown">
-                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Akun
-                    </button>
+                    <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Forms</a>
+                    <ul class="dropdown-menu" aria-labelledby="formsDropdown">
+                        <li><a href="{{ route('agenda.create') }}">Agenda</a></li>
+                        <li><a href="{{ route('forms.atensi') }}">Atensi</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a href="#" style="text-decoration: none; color: black;">Another Form</a></li>
+                    </ul>
+                </div>
+                <a href="#">Tables</a>
+                <a href="#">Charts</a>
+                <a href="#">Icons</a>
+                <a href="#">Register</a>
+                <a href="#">Login</a>
+                <div class="dropdown">
+                    <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Akun</a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                        <li><a class="dropdown-item" href="#">Profile</a></li>
+                        <li><a href="#" style="text-decoration: none; color: black;">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Logout
-                            </a>
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="text-decoration: none; color: black;">Logout</a>
                             <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                 @csrf
                             </form>
@@ -179,26 +233,26 @@
                     </ul>
                 </div>
             </div>
-            <div class="banner">
-                <img src="{{ asset('img/lapas2.jpg') }}" alt="Banner" class="img-fluid">
-                <div class="overlay-text">
-                    <h2>S.I.A.P LAPAS KELAS IIB GARUT</h2>
-                    <p>Sistem Informasi Agenda Pemasyarakatan</p>
+            <div class="main-content">
+                <div class="banner">
+                    <img src="{{ asset('img/lapas2.jpg') }}" alt="Banner" class="img-fluid">
+                    <div class="overlay-text">
+                        <h2>S.I.A.P LAPAS KELAS IIB GARUT</h2>
+                        <p>Sistem Informasi Agenda Pemasyarakatan</p>
+                    </div>
                 </div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h4>Reports / Today</h4>
+                <div class="agenda-item">Agenda item 1</div>
+                <div class="agenda-item">Agenda item 2</div>
+                <div class="agenda-item">Agenda item 3</div>
+                <div class="agenda-item">Agenda item 4</div>
             </div>
-        </div>
-        <div class="main-content">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
-                </ol>
-            </nav>
-            <h4>Reports / Today</h4>
-            <div class="agenda-item">Agenda item 1</div>
-            <div class="agenda-item">Agenda item 2</div>
-            <div class="agenda-item">Agenda item 3</div>
-            <div class="agenda-item">Agenda item 4</div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

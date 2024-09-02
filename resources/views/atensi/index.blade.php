@@ -1,6 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    body {
+        background-color: #fff; /* Mengubah latar belakang halaman menjadi putih */
+    }
+
+</style>
 <div class="container">
     <h2> Atensi</h2>
     <form action="{{ route('forms.atensi.store') }}" method="POST" enctype="multipart/form-data">

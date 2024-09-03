@@ -214,11 +214,6 @@
                         <li><a href="#" style="text-decoration: none; color: black;">Another Form</a></li>
                     </ul>
                 </div>
-                <a href="#">Tables</a>
-                <a href="#">Charts</a>
-                <a href="#">Icons</a>
-                <a href="#">Register</a>
-                <a href="#">Login</a>
                 <div class="dropdown">
                     <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Akun</a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">

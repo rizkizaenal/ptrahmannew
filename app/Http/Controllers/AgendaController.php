@@ -7,26 +7,42 @@ use Illuminate\Http\Request;
 
 class AgendaController extends Controller
 {
-    // Metode untuk menampilkan form input agenda
+    // Menampilkan form untuk membuat agenda baru
     public function create()
     {
-        return view('agenda.create'); // Gantilah 'agenda.create' dengan nama view yang sesuai
+        return view('agenda.create'); // Sesuaikan dengan nama view Anda
     }
 
-    // Metode untuk menyimpan data agenda
+
+
+    public function __construct()
+    {
+        $this->middleware('auth'); // Pastikan middleware guest digunakan
+    }
+    // Menyimpan data agenda baru
     public function store(Request $request)
     {
-        // Validasi data yang dikirimkan
+        // Validasi data
         $validatedData = $request->validate([
             'nama' => 'required|string|max:255',
             'keterangan' => 'required|string',
             'tanggal' => 'required|date',
         ]);
 
-        // Membuat entri baru di tabel agendas
+        // Simpan data agenda
         Agenda::create($validatedData);
 
-        // Redirect ke halaman yang diinginkan
+        // Redirect ke halaman index dengan pesan sukses
         return redirect()->route('agenda.index')->with('success', 'Agenda created successfully!');
+    }
+
+    // Menampilkan daftar semua agenda
+    public function index()
+    {
+        // Ambil semua data agenda dari database
+        $agendas = Agenda::all();
+
+        // Tampilkan data ke view index
+        return view('agenda.index', compact('agendas')); // Sesuaikan dengan nama view Anda
     }
 }

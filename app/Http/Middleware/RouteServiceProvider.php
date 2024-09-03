@@ -1,37 +1,26 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Providers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Route;
 
-class LoginController extends Controller
+class RouteServiceProvider extends ServiceProvider
 {
-    use AuthenticatesUsers;
+    public const INDEX = '/dashboard'; // Pastikan ini adalah '/dashboard'
 
-    /**
-     * Tempat untuk mengarahkan pengguna setelah login.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    protected function authenticated(Request $request, $user)
+    public function boot()
     {
-        // Arahkan ke rute atau URL yang spesifik setelah login
-        return redirect()->intended('/index'); // Ganti '/home' dengan rute yang diinginkan
-    }
+        $this->configureRateLimiting();
 
-    /**
-     * Membuat instance controller baru.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        // Middleware untuk memastikan hanya tamu yang dapat mengakses halaman login, dan logout hanya bisa diakses oleh user yang terautentikasi
-        $this->middleware('guest')->except('logout');
-        $this->middleware('auth')->only('logout');
+        $this->routes(function () {
+            Route::middleware('web')
+                ->group(base_path('routes/web.php'));
+
+            Route::middleware('api')
+                ->prefix('api')
+                ->group(base_path('routes/api.php'));
+        });
     }
 }

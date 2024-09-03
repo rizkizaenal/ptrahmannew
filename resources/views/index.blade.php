@@ -209,7 +209,7 @@
                     <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Forms</a>
                     <ul class="dropdown-menu" aria-labelledby="formsDropdown">
                         <li><a href="{{ route('agenda.create') }}">Agenda</a></li>
-                        <li><a href="{{ route('forms.atensi') }}">Atensi</a></li>
+                        <li><a href="{{ route('atensi.index') }}">Atensi</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a href="#" style="text-decoration: none; color: black;">Another Form</a></li>
                     </ul>

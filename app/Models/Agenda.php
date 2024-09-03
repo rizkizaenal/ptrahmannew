@@ -10,9 +10,9 @@ class Agenda extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nama',          // Perbarui dengan nama kolom yang benar
-        'tanggal',       // Perbarui dengan nama kolom yang benar
-        'keterangan',    // Perbarui dengan nama kolom yang benar
+        'nama',
+        'keterangan',
+        'tanggal',
     ];
 
     // Opsional: Jika Anda ingin mengatur nama tabel jika tidak mengikuti konvensi plural

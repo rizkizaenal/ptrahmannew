@@ -10,17 +10,6 @@ use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
-    /*
-    |--------------------------------------------------------------------------
-    | Register Controller
-    |--------------------------------------------------------------------------
-    |
-    | Controller ini menangani pendaftaran pengguna baru serta validasi dan
-    | pembuatan akun mereka. Secara default, controller ini menggunakan
-    | trait untuk menyediakan fungsionalitas tanpa memerlukan kode tambahan.
-    |
-    */
-
     use RegistersUsers;
 
     /**
@@ -28,7 +17,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/login'; // Setelah registrasi, redirect ke halaman login
 
     /**
      * Membuat instance controller baru.
@@ -37,7 +26,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+        $this->middleware('guest'); // Pastikan middleware guest digunakan
     }
 
     /**
@@ -63,6 +52,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        // Buat pengguna baru tanpa login otomatis
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],

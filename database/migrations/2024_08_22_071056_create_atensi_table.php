@@ -9,15 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-    {
-        Schema::create('atensi', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama');
-            $table->text('deskripsi');
-            $table->timestamps();
-        });
-    }
+    // database/migrations/xxxx_xx_xx_create_atensis_table.php
+
+public function up()
+{
+    Schema::create('atensis', function (Blueprint $table) {
+        $table->id();
+        $table->string('uraian_kegiatan');
+        $table->string('saran_tindak_lanjut');
+        $table->text('keterangan')->nullable();
+        $table->string('file')->nullable();
+        $table->timestamps();
+    });
+}
+
     
     /**
      * Reverse the migrations.

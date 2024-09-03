@@ -4,34 +4,36 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route; // Import Route facade
 
 class LoginController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Login Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller handles authenticating users for the application and
+    | redirecting them to your home screen. The controller uses a trait
+    | to conveniently provide its functionality to your applications.
+    |
+    */
+
     use AuthenticatesUsers;
 
     /**
-     * Menentukan ke mana pengguna harus diarahkan setelah login.
+     * Where to redirect users after login.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  mixed  $user
-     * @return \Illuminate\Http\RedirectResponse
+     * @var string
      */
-    protected function authenticated(Request $request, $user)
-    {
-        // Redirect ke named route 'index'
-        return redirect()->intended(route('index'));
-    }
+    protected $redirectTo = '/';
 
     /**
-     * Membuat instance controller baru.
+     * Create a new controller instance.
      *
      * @return void
      */
     public function __construct()
     {
-        // Middleware untuk memastikan hanya tamu yang dapat mengakses halaman login, dan logout hanya bisa diakses oleh user yang terautentikasi
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }

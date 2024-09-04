@@ -29,9 +29,10 @@ Auth::routes();
 
 
 Route::get('/atensi/create', [AtensiController::class, 'create'])->name('forms.atensi.create');
-Route::post('/atensi', [AtensiController::class, 'store'])->name('forms.atensi.store');
+Route::post('/atensi/destroy', [AtensiController::class, 'store'])->name('forms.atensi.store');
 Route::get('/atensi', [AtensiController::class, 'index'])->name('atensi.index');
 
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
 Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
 Route::post('/agenda', [AgendaController::class, 'store'])->name('agenda.store');
+  

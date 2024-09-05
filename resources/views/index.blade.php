@@ -204,7 +204,6 @@
         <div class="sidebar-and-content">
             <div class="sidebar">
                 <a href="#">Dashboard</a>
-                <a href="#">Components</a>
                 <div class="dropdown">
                     <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Forms</a>
                     <ul class="dropdown-menu" aria-labelledby="formsDropdown">

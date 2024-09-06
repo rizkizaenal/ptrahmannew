@@ -198,7 +198,7 @@
             </div>
             <div class="user-profile">
                 <i class="far fa-bell fa-2x"></i>
-                <img src="{{ asset('img/user.jpg') }}" alt="User" class="img-fluid rounded-circle">
+                <img src="{{ asset('img/fit.jpg') }}" alt="User" class="img-fluid rounded-circle">
             </div>
         </div>
         <div class="sidebar-and-content">

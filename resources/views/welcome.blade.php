@@ -76,24 +76,24 @@
     <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="{{ asset('img/th(27).jpg') }}" alt="Gambar 1">
+                <img src="{{ asset('img/img1.jpg') }}" alt="Gambar 1">
+                <div class="carousel-caption">
+                    <h5>Selamat datang d lapas kelas IIA GARUT </h5>
+                    <p> Lembaga Pemasyarakatan (Lapas) ini melayani pembinaan kepada narapidana untuk daerah Kabupaten Garut dan narapudana dari daerah lain sesuai dengan kondisi kasus/perkaranya.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="{{ asset('img/lapas2.jpg') }}" alt="Gambar 2">
                 <div class="carousel-caption">
                     <h5>Sejarah Berdirinya Lembaga Pemasyarakatan (Lapas)</h5>
                     <p>Lembaga Pemasyarakatan (Lapas) pertama kali didirikan pada masa kolonial Belanda sebagai bagian dari sistem hukum di Indonesia.</p>
                 </div>
             </div>
             <div class="carousel-item">
-                <img src="{{ asset('img/lapas2.jpg') }}" alt="Gambar 2">
-                <div class="carousel-caption">
-                    <h5>Reformasi Sistem Lapas</h5>
-                    <p>Pada tahun 1964, setelah Indonesia merdeka, sistem Lapas mulai mengalami reformasi.</p>
-                </div>
-            </div>
-            <div class="carousel-item">
                 <img src="{{ asset('img/lapas-garut.jpeg') }}" alt="Gambar 3">
                 <div class="carousel-caption">
-                    <h5>Peran Lapas Saat Ini</h5>
-                    <p>Lapas terus berperan penting dalam rehabilitasi dan reintegrasi sosial narapidana di seluruh Indonesia.</p>
+                    <h5>Reformasi Sistem Lapas</h5>
+                    <p>Pada tahun 1964, setelah Indonesia merdeka, sistem Lapas mulai mengalami reformasi.Reformasi sistem peradilan pidana bertujuan untuk meningkatkan keadilan dan efisiensi dalam penanganan kasus pidana. Namun, masih terdapat banyak tantangan yang harus dihadapi dalam menerapkan reformasi sistem peradilan pidana ini, terutama dalam hal rehabilitasi narapidana.</p>
                 </div>
             </div>
         </div>

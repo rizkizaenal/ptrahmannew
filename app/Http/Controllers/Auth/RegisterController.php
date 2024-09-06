@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -57,6 +58,23 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => $data['role'],
         ]);
+    }
+
+    /**
+     * Override method registered untuk redirect ke login setelah registrasi.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    protected function registered(Request $request, $user)
+    {
+        // Logout user setelah registrasi
+        $this->guard()->logout();
+
+        // Redirect ke halaman login dengan pesan sukses
+        return redirect('/login')->with('success', 'Registrasi berhasil! Silakan login.');
     }
 }

@@ -9,8 +9,8 @@
 </style>
 <div class="container">
     <h2> Atensi</h2>
-    <form action="{{ route('forms.atensi.store') }}" method="POST" enctype="multipart/form-data">
-        @csrf
+    <a href="{{ route('forms.atensi.create') }}" class="btn btn-secondary">Buat Atensi</a>
+    @csrf
         <div class="mb-3">
             <label for="uraian_kegiatan" class="form-label">Uraian Kegiatan</label>
             <input type="text" class="form-control" id="uraian_kegiatan" name="uraian_kegiatan" placeholder="isi uraian">

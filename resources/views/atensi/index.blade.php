@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Daftar Atensi</h2>
-    <a href="{{route('forms.atensi.create')}}" type="reset" class="btn btn-secondary">Buat Atensi</a>
+    <a href="{{ route('forms.atensi.create') }}" class="btn btn-secondary mb-3">Buat Atensi</a>
     @if (session('success'))
         <div class="alert alert-success">
             {{ session('success') }}
@@ -35,6 +35,7 @@
                     @endif
                 </td>
                 <td>
+                    <form action="{{ route('atensi.destroy', $atensi->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
@@ -44,5 +45,9 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="d-flex justify-content-end mt-3">
+        <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali</a>
+    </div>
 </div>
 @endsection

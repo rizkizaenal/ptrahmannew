@@ -40,17 +40,15 @@
             border-radius: 50%;
         }
 
-        /* Bagian atas dengan tombol login dan register */
-        .header-buttons {
-            display: flex;
-            justify-content: flex-end;
-            padding: 1rem;
+        /* Posisi tombol dashboard */
+        .dashboard-button {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: 20px;
+            right: 20px;
             z-index: 10;
         }
 
+        /* Mengatur bagian tombol di dalam gambar carousel */
         .header-buttons a {
             margin-left: 1rem;
         }
@@ -58,28 +56,19 @@
 </head>
 <body class="antialiased">
 
-    <!-- Bagian atas dengan tombol login dan register -->
-    <div class="header-buttons">
-        @if (Route::has('login'))
-            @auth
-                <a href="{{ route('index') }}" class="btn btn-secondary">Home</a>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-secondary">Log in</a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}" class="btn btn-secondary">Register</a>
-                @endif
-            @endauth
-        @endif
+    <!-- Tombol Dashboard -->
+    <div class="dashboard-button">
+        <a href="{{ route('dashboard') }}" class="btn btn-success btn-lg">Dashboard</a>
     </div>
-
+    
     <!-- Carousel -->
     <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <img src="{{ asset('img/img1.jpg') }}" alt="Gambar 1">
                 <div class="carousel-caption">
-                    <h5>Selamat datang d lapas kelas IIA GARUT </h5>
-                    <p> Lembaga Pemasyarakatan (Lapas) ini melayani pembinaan kepada narapidana untuk daerah Kabupaten Garut dan narapudana dari daerah lain sesuai dengan kondisi kasus/perkaranya.</p>
+                    <h5>Selamat datang di lapas kelas IIA GARUT</h5>
+                    <p>Lembaga Pemasyarakatan (Lapas) ini melayani pembinaan kepada narapidana untuk daerah Kabupaten Garut dan narapidana dari daerah lain sesuai dengan kondisi kasus/perkaranya.</p>
                 </div>
             </div>
             <div class="carousel-item">
@@ -93,7 +82,7 @@
                 <img src="{{ asset('img/lapas-garut.jpeg') }}" alt="Gambar 3">
                 <div class="carousel-caption">
                     <h5>Reformasi Sistem Lapas</h5>
-                    <p>Pada tahun 1964, setelah Indonesia merdeka, sistem Lapas mulai mengalami reformasi.Reformasi sistem peradilan pidana bertujuan untuk meningkatkan keadilan dan efisiensi dalam penanganan kasus pidana. Namun, masih terdapat banyak tantangan yang harus dihadapi dalam menerapkan reformasi sistem peradilan pidana ini, terutama dalam hal rehabilitasi narapidana.</p>
+                    <p>Pada tahun 1964, setelah Indonesia merdeka, sistem Lapas mulai mengalami reformasi. Reformasi sistem peradilan pidana bertujuan untuk meningkatkan keadilan dan efisiensi dalam penanganan kasus pidana.</p>
                 </div>
             </div>
         </div>

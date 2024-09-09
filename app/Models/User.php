@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Tambahkan 'role' ke dalam fillable jika belum ada
     ];
 
     /**
@@ -42,4 +42,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * Cek apakah pengguna adalah super admin.
+     *
+     * @return bool
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === 'super_admin';
+    }
+
+    /**
+     * Ambil semua pengguna dengan peran super_admin.
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function getSuperAdmins()
+    {
+        return self::where('role', 'super_admin')->get();
+    }
 }

@@ -31,6 +31,11 @@
         .alert-success {
             margin-top: 20px;
         }
+        .back-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+        }
     </style>
 
     <table class="table table-striped table-bordered">
@@ -53,4 +58,8 @@
             @endforeach
         </tbody>
     </table>
+
+    <div class="back-button">
+        <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali </a>
+    </div>
 @endsection

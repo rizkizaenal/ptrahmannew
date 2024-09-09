@@ -219,10 +219,15 @@
                         <li><a href="#" style="text-decoration: none; color: black;">Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" style="text-decoration: none; color: black;">Logout</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
+                        <a href="{{ route('logout') }}" 
+                        onclick="event.preventDefault(); 
+                       document.getElementById('logout-form').submit();" 
+                     style="text-decoration: none; color: black;">
+                  Logout
+                </a>
+     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+</form>
                         </li>
                     </ul>
                 </div>

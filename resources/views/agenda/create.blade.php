@@ -93,6 +93,8 @@
                     </div>
                     <div class="modal-footer">
                         <a href="{{ route('dashboard') }}" class="btn btn-primary">OK</a>
+                        <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali ke Halaman Dashboard</a>
+
                     </div>
                 </div>
             </div>

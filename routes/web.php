@@ -32,8 +32,9 @@ Route::prefix('atensi')->middleware('auth')->group(function () {Route::resource(
 Route::get('/atensi/create', [AtensiController::class, 'create'])->name('forms.atensi.create');
 Route::post('/atensi/destroy', [AtensiController::class, 'store'])->name('forms.atensi.store');
 Route::get('/atensi', [AtensiController::class, 'index'])->name('atensi.index');
-Route::get('/{id}/edit', [AtensiController::class, 'edit'])->name('atensi.edit');
-Route::put('/{id}', [AtensiController::class, 'update'])->name('atensi.update');
+Route::post('/atensi/store', [AtensiController::class, 'store'])->name('atensi.store');
+Route::get('/atensi/{id}/edit', [AtensiController::class, 'edit'])->name('atensi.edit');
+Route::put('/atensi/{id}', [AtensiController::class, 'update'])->name('atensi.update');
 Route::delete('/{id}', [AtensiController::class, 'destroy'])->name('atensi.destroy');
 });
 
@@ -41,9 +42,10 @@ Route::prefix('atensi')->middleware('auth')->group(function () {
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
 Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
 Route::post('/agenda', [AgendaController::class, 'store'])->name('agenda.store');
-Route::get('/{id}/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
-Route::put('/{id}', [AgendaController::class, 'update'])->name('agenda.update');
-Route::delete('/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
+Route::get('/agenda/{id}/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
+Route::put('/agenda/{id}', [AgendaController::class, 'update'])->name('agenda.update');
+Route::delete('/agenda/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
+
 });
 
 // Rute khusus untuk super_admin

@@ -35,12 +35,17 @@
                     @endif
                 </td>
                 <td>
-                    <form action="{{ route('atensi.destroy', $atensi->id) }}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                    </form>
-                </td>
+    <!-- Tombol Edit -->
+    <a href="{{ route('atensi.edit', $atensi->id) }}" class="btn btn-warning" style="display: inline-block; margin-right: 5px;">Edit</a>
+
+    <!-- Tombol Hapus -->
+    <form action="{{ route('atensi.destroy', $atensi->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Hapus</button>
+    </form>
+</td>
+
             </tr>
             @endforeach
         </tbody>

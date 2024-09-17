@@ -58,7 +58,7 @@
 
     <!-- Tombol Dashboard -->
     <div class="dashboard-button">
-        <a href="{{ route('dashboard') }}" class="btn btn-success btn-lg">Dashboard</a>
+        <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-lg">Dashboard</a>
     </div>
     
     <!-- Carousel -->

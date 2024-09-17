@@ -38,26 +38,37 @@
         }
     </style>
 
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>No</th>
-                <th>Nama Agenda</th>
-                <th>Keterangan</th>
-                <th>Tanggal</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($agendas as $index => $agenda)
-                <tr>
-                    <td>{{ $index + 1 }}</td>
-                    <td>{{ $agenda->nama }}</td>
-                    <td>{{ $agenda->keterangan }}</td>
-                    <td>{{ \Carbon\Carbon::parse($agenda->tanggal)->format('d M Y') }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Nama</th>
+            <th>Keterangan</th>
+            <th>Tanggal</th>
+            <th>Aksi</th> <!-- Kolom untuk tombol Edit dan Delete -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($agendas as $agenda)
+        <tr>
+            <td>{{ $agenda->nama }}</td>
+            <td>{{ $agenda->keterangan }}</td>
+            <td>{{ $agenda->tanggal->format('d-m-Y') }}</td> <!-- Pastikan $agenda->tanggal adalah objek Carbon -->
+            <td>
+                <!-- Tombol Edit -->
+                <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning btn-sm">Edit</a>
+
+                <!-- Tombol Delete -->
+                <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Yakin ingin menghapus agenda ini?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
+
 
     <div class="back-button">
         <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali </a>

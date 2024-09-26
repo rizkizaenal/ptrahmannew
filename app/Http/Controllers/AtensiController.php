@@ -11,9 +11,23 @@ class AtensiController extends Controller
     // Menampilkan daftar atensi
     public function index()
     {
-        $data = Atensi::all(); // Mengambil semua data dari tabel 'atensi'
-        return view('atensi.index', compact('data'));
+        $atensi = Atensi::all(); // Mengambil semua data dari tabel 'atensi'
+        return view('atensi.index', compact('atensi'));
     }
+    public function show($id)
+    {
+        // Temukan data berdasarkan ID
+        $atensi = Atensi::find($id);
+    
+        // Jika data tidak ditemukan, arahkan kembali atau tampilkan pesan error
+        if (!$atensi) {
+            return redirect()->route('atensi.index')->with('error', 'Data tidak ditemukan');
+        }
+    
+        // Kembalikan view dengan data atensi
+        return view('atensi.show', compact('atensi'));
+    }
+            
 
     public function __construct()
     {
@@ -88,8 +102,9 @@ class AtensiController extends Controller
             return redirect()->route('atensi.index')->with('success', 'Data atensi berhasil diperbarui.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat mengupdate data: ' . $e->getMessage()]);
-        }
+        }    
     }
+    
 
     // Menghapus data atensi
     public function destroy($id)
@@ -104,3 +119,5 @@ class AtensiController extends Controller
         }
     }
 }
+
+

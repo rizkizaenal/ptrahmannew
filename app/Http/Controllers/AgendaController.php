@@ -10,7 +10,7 @@ class AgendaController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth'); // Pastikan middleware auth digunakan
+        $this->middleware('auth');
     }
 
     // Menampilkan daftar semua agenda
@@ -20,13 +20,13 @@ class AgendaController extends Controller
         $agendas = Agenda::all();
 
         // Tampilkan data ke view index
-        return view('agenda.index', compact('agendas')); // Sesuaikan dengan nama view Anda
+        return view('agenda.index', compact('agendas'));
     }
 
     // Menampilkan form untuk membuat agenda baru
     public function create()
     {
-        return view('agenda.create'); // Sesuaikan dengan nama view Anda
+        return view('agenda.create');
     }
 
     // Menyimpan data agenda baru
@@ -39,25 +39,21 @@ class AgendaController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        // Konversi string tanggal ke objek Carbon
-        $tanggal = Carbon::parse($validatedData['tanggal']);
-
         // Simpan data agenda
         Agenda::create([
             'nama' => $validatedData['nama'],
             'keterangan' => $validatedData['keterangan'],
-            'tanggal' => $tanggal,
+            'tanggal' => Carbon::parse($validatedData['tanggal']), // Konversi ke Carbon
         ]);
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('agenda.index')->with('success', 'Agenda created successfully!');
+        return redirect()->route('agenda.index')->with('success', 'Agenda berhasil dibuat!');
     }
 
     // Menampilkan form edit agenda
     public function edit($id)
     {
         $agenda = Agenda::findOrFail($id);
-        return view('agenda.edit', compact('agenda')); // Sesuaikan dengan view edit Anda
+        return view('agenda.edit', compact('agenda'));
     }
 
     // Menyimpan perubahan data agenda
@@ -70,29 +66,33 @@ class AgendaController extends Controller
             'tanggal' => 'required|date',
         ]);
 
-        // Konversi string tanggal ke objek Carbon
-        $tanggal = Carbon::parse($validatedData['tanggal']);
-
         // Update data agenda
         $agenda = Agenda::findOrFail($id);
         $agenda->update([
             'nama' => $validatedData['nama'],
             'keterangan' => $validatedData['keterangan'],
-            'tanggal' => $tanggal,
+            'tanggal' => Carbon::parse($validatedData['tanggal']), // Konversi ke Carbon
         ]);
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('agenda.index')->with('success', 'Agenda updated successfully!');
+        return redirect()->route('agenda.index')->with('success', 'Agenda berhasil diupdate!');
+    }
+
+    public function show($id)
+    {
+        // Ambil data berdasarkan ID
+        $agenda = Agenda::find($id);
+    
+        // Kembalikan tampilan dengan data
+        return view('agenda.show', compact('agenda'));
     }
 
     // Menghapus data agenda
     public function destroy($id)
     {
-        // Hapus agenda berdasarkan ID
         $agenda = Agenda::findOrFail($id);
         $agenda->delete();
 
-        // Redirect ke halaman index dengan pesan sukses
-        return redirect()->route('agenda.index')->with('success', 'Agenda deleted successfully!');
+        return redirect()->route('agenda.index')->with('success', 'Agenda berhasil dihapus!');
     }
 }
+

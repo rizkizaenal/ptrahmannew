@@ -58,8 +58,8 @@
 
     <!-- Tombol Dashboard -->
     <div class="dashboard-button">
-        <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-lg">Dashboard</a>
-    </div>
+    <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
+    <a href="{{ route('register') }}" class="btn btn-secondary">Register</a>    </div>
     
     <!-- Carousel -->
     <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">

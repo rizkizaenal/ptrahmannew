@@ -198,7 +198,7 @@
             </div>
             <div class="user-profile">
                 <i class="far fa-bell fa-2x"></i>
-                <img src="{{ asset('img/fit.jpg') }}" alt="User" class="img-fluid rounded-circle">
+                <img src="{{ asset('img/lapas.png') }}" alt="User" class="img-fluid rounded-circle">
             </div>
         </div>
         <div class="sidebar-and-content">
@@ -231,7 +231,7 @@
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>     
             <div class="main-content">
                 <div class="banner">
                     <img src="{{ asset('img/lapas2.jpg') }}" alt="Banner" class="img-fluid">

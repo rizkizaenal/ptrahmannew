@@ -31,42 +31,52 @@
         .alert-success {
             margin-top: 20px;
         }
-        .back-button {
+        .back-button, .export-button {
             position: fixed;
             bottom: 20px;
+        }
+        .back-button {
             right: 20px;
+        }
+        .export-button {
+            left: 20px;
         }
     </style>
 
-<table class="table">
-            <thead>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Keterangan</th>
+                <th>Tanggal</th>
+                <th>Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($agendas as $agenda)
                 <tr>
-                    <th>Nama</th>
-                    <th>Keterangan</th>
-                    <th>Tanggal</th>
-                    <th>Aksi</th>
+                    <td>{{ $agenda->nama }}</td>
+                    <td>{{ $agenda->keterangan }}</td>
+                    <td>{{ $agenda->tanggal->format('d-m-Y') }}</td> <!-- Pastikan tanggal sudah berupa objek Carbon -->
+                    <td>
+                        <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning">Edit</a>
+                        <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($agendas as $agenda)
-                    <tr>
-                        <td>{{ $agenda->nama }}</td>
-                        <td>{{ $agenda->keterangan }}</td>
-                        <td>{{ $agenda->tanggal->format('d-m-Y') }}</td> <!-- Pastikan tanggal sudah berupa objek Carbon -->
-                        <td>
-                            <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning">Edit</a>
-                            <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-        <div class="back-button">
-        <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali </a>
+            @endforeach
+        </tbody>
+    </table>
+
+    <div class="back-button">
+        <a href="{{ route('index') }}" class="btn btn-primary">Back</a>
     </div>
+
+    <div class="export-button">
+        <a href="{{ route('agenda.export') }}" class="btn btn-success">Export to Word</a>
+
     </div>
 @endsection

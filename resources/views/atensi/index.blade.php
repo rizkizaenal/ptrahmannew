@@ -42,7 +42,7 @@
     <form action="{{ route('atensi.destroy', $atensi->id) }}" method="POST" style="display: inline-block;" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
         @csrf
         @method('DELETE')
-        <button type="submit" class="btn btn-danger">Hapus</button>
+        <button type="submit" class="btn btn-danger">Delet</button>
     </form>
 </td>
 
@@ -52,7 +52,7 @@
     </table>
 
     <div class="d-flex justify-content-end mt-3">
-        <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali</a>
+    <a href="{{ route('index') }}" class="btn btn-primary">back</a>
     </div>
 </div>
 @endsection

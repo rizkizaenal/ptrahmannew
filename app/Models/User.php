@@ -23,6 +23,7 @@ class User extends Authenticatable
         'role', // Tambahkan 'role' ke dalam fillable jika belum ada
     ];
 
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -32,6 +33,7 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+    
 
     /**
      * The attributes that should be cast.
@@ -62,4 +64,5 @@ class User extends Authenticatable
     {
         return self::where('role', 'super_admin')->get();
     }
+    
 }

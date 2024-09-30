@@ -5,15 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Atensi;
 use Exception;
+use Illuminate\Support\Facades\Storage; // Untuk operasi file
 
 class AtensiController extends Controller
 {
     // Menampilkan daftar atensi
     public function index()
     {
-        $atensi = Atensi::all(); // Mengambil semua data dari tabel 'atensi'
-        return view('atensi.index', compact('atensi'));
+        // Mengambil semua data dari tabel 'atensi'
+        $data = Atensi::orderBy('created_at', 'desc')->get();// Menggunakan Atensi model, bukan Model
+        return view('atensi.index', compact('data'));
     }
+
+
     public function show($id)
     {
         // Temukan data berdasarkan ID
@@ -25,9 +29,8 @@ class AtensiController extends Controller
         }
     
         // Kembalikan view dengan data atensi
-        return view('atensi.show', compact('atensi'));
+        return redirect()->route('atensi.show', $atensi->id)->with('success', 'Atensi berhasil disimpan!');
     }
-            
 
     public function __construct()
     {
@@ -40,6 +43,7 @@ class AtensiController extends Controller
         return view('atensi.create');
     }
 
+    
     // Menyimpan data atensi
     public function store(Request $request)
     {
@@ -90,6 +94,12 @@ class AtensiController extends Controller
             $atensi = Atensi::findOrFail($id);
 
             if ($request->hasFile('file')) {
+                // Hapus file lama jika ada
+                if ($atensi->file) {
+                    Storage::delete($atensi->file);
+                }
+
+                // Simpan file baru
                 $filePath = $request->file('file')->store('atensi_files');
                 $atensi->file = $filePath;
             }
@@ -102,15 +112,20 @@ class AtensiController extends Controller
             return redirect()->route('atensi.index')->with('success', 'Data atensi berhasil diperbarui.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat mengupdate data: ' . $e->getMessage()]);
-        }    
+        }
     }
-    
 
     // Menghapus data atensi
     public function destroy($id)
     {
         try {
             $atensi = Atensi::findOrFail($id);
+            
+            // Hapus file jika ada
+            if ($atensi->file) {
+                Storage::delete($atensi->file);
+            }
+
             $atensi->delete();
 
             return redirect()->route('atensi.index')->with('success', 'Data atensi berhasil dihapus.');
@@ -119,5 +134,4 @@ class AtensiController extends Controller
         }
     }
 }
-
 

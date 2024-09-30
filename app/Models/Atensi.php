@@ -27,3 +27,4 @@ class Atensi extends Model
         return $this->file ? asset('storage/' . $this->file) : null;
     }
 }
+

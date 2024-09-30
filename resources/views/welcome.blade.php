@@ -8,9 +8,37 @@
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
     <style>
         /* Custom Styles */
+        .navbar {
+    position: sticky; /* Membuat navbar tetap di atas saat scroll */
+    top: 0; /* Menentukan posisi sticky di bagian atas */
+    z-index: 1000; /* Menjamin navbar tetap di atas elemen lain */
+    background-color: transparent; /* Navbar transparan saat di atas gambar */
+    transition: background-color 0.3s, color 0.3s; /* Animasi transisi */
+}
+
+/* Warna teks navbar saat belum di-scroll */
+.navbar a.nav-link,
+.navbar .navbar-brand {
+    color: black; /* Warna teks putih untuk navbar di posisi awal */
+    transition: color 0.3s;
+}
+
+/* Warna teks dan background navbar saat sudah di-scroll */
+.navbar.scrolled {
+    background-color:white; /* Warna navbar setelah di-scroll */
+    color: white;
+}
+
+.navbar.scrolled a.nav-link,
+.navbar.scrolled .navbar-brand {
+    color: #FF4C4C; /* Ubah warna teks menjadi hitam setelah di-scroll */
+}
+
         .carousel-item img {
             width: 100%;
             height: 100vh; /* Menggunakan viewport height agar gambar memenuhi lebih banyak area vertikal */
@@ -40,27 +68,72 @@
             border-radius: 50%;
         }
 
-        /* Posisi tombol dashboard */
-        .dashboard-button {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 10;
+        /* Style tambahan untuk konten di bawah carousel */
+        .content {
+            padding: 20px;
+            background-color: #fff; /* Warna latar belakang untuk konten */
         }
 
-        /* Mengatur bagian tombol di dalam gambar carousel */
-        .header-buttons a {
-            margin-left: 1rem;
+        .content h2 {
+            margin-top: 20px;
+            margin-bottom: 15px;
+        }
+
+        .content p {
+            margin-bottom: 10px;
+        }
+
+        /* Jarak antara item navbar */
+        .nav-item {
+            margin-right: 20px; /* Jarak antar item navbar */
+        }
+
+        /* Ukuran logo */
+        .navbar-brand img {
+            width: 90px; /* Ganti ukuran sesuai kebutuhan */
+            margin-right: 5px; /* Jarak antar logo */
+        }
+
+        /* Style ikon */
+        .contact-icon {
+            margin-right: 10px; /* Jarak antara ikon dan teks */
+            color: #007bff; /* Warna ikon */
         }
     </style>
 </head>
 <body class="antialiased">
 
-    <!-- Tombol Dashboard -->
-    <div class="dashboard-button">
-    <a href="{{ route('login') }}" class="btn btn-primary">Login</a>
-    <a href="{{ route('register') }}" class="btn btn-secondary">Register</a>    </div>
-    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <img src="{{ asset('img/pengayom(1).jpg') }}" alt="Logo 1"> <!-- Ganti dengan path ke logo 1 -->
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a> <!-- Ubah link di sini -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a> <!-- Tambahkan link ke bagian Contact -->
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-danger text-white" href="{{ route('login') }}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-warning text-white" href="{{ route('register') }}">Register</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
     <!-- Carousel -->
     <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <div class="carousel-inner">
@@ -98,7 +171,38 @@
         </button>
     </div>
 
+    <!-- Konten Tambahan di Bawah Carousel -->
+    <div class="content" id="about"> 
+        <div class="container">
+            <h2>About</h2>
+            <p>Lembaga Pemasyarakatan merupakan Unit Pelaksana Teknis di bawah Direktorat Jenderal Pemasyarakatan Kementerian Hukum dan Hak Asasi Manusia (dahulu Departemen Kehakiman). Penghuni Lembaga Pemasyarakatan bisa narapidana (napi) atau Warga Binaan Pemasyarakatan (WBP) bisa juga yang statusnya masih tahanan, maksudnya orang tersebut masih berada dalam proses peradilan dan belum ditentukan bersalah atau tidak oleh hakim. Pegawai negeri sipil yang menangani pembinaan narapidana dan tahanan di lembaga pemasyarakatan disebut Petugas Pemasyarakatan, atau dahulu lebih dikenal dengan istilah sipir penjara.</p>
+        </div>
+    </div>
+
+    <!-- Bagian Kontak -->
+    <div class="content" id="contact">
+        <div class="container">
+            <h2>Contact</h2>
+            <p><i class="fas fa-map-marker-alt contact-icon"></i> Haurpanggung, Tarogong Selatan, Kabupaten Garut, Jawa Barat 44151</p>
+            <p><i class="fas fa-phone contact-icon"></i> No Telp: (0262)233182</p>
+            <p><i class="fas fa-envelope contact-icon"></i> Email: info@example.com</p> <!-- Tambahkan email jika perlu -->
+        </div>
+    </div>
+
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Mengubah kelas navbar saat di-scroll
+        window.onscroll = function() {
+    const navbar = document.querySelector('.navbar');
+    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+};
+
+    </script>
 </body>
 </html>

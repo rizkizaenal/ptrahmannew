@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -31,12 +31,14 @@
             max-width: 50px;
             height: auto;
             margin-right: 10px;
+            margin-left: 10px;
         }
 
         .title {
             font-size: 24px;
             font-weight: bold;
             color: #333;
+            margin-left: 10px;
         }
 
         .search-bar {
@@ -60,17 +62,6 @@
             color: #6c757d;
         }
 
-        .user-profile {
-            display: flex;
-            align-items: center;
-        }
-
-        .user-profile img {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            margin-left: 10px;
-        }
 
         .sidebar-and-content {
             display: flex;
@@ -83,14 +74,20 @@
             padding: 20px;
             position: fixed;
             top: 60px;
-            left: 0;
+            left: -250px;
             height: calc(100vh - 60px);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
+            transition: left 0.3s ease;
+        }
+
+        .sidebar.show {
+            left: 0;
         }
 
         .sidebar a {
-            display: block;
+            display: flex;
+            align-items: center;
             padding: 10px 15px;
             color: #333;
             text-decoration: none;
@@ -103,12 +100,24 @@
             color: #fff;
         }
 
+        .sidebar a i {
+            margin-right: 10px;
+        }
+
         .main-content {
             flex-grow: 1;
             padding: 20px;
-            margin-left: 270px;
             background-color: #ffffff;
             border-left: 1px solid #dee2e6;
+            transition: margin-left 0.3s ease;
+        }
+
+        .menu-icon {
+            font-size: 30px;
+            cursor: pointer;
+            margin-left: 0px;
+            margin-right: 10px;
+            color: #007bff;
         }
 
         .banner {
@@ -182,13 +191,20 @@
             background-color: #007bff;
             color: white;
         }
+
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
     </style>
 </head>
-
 <body>
     <div class="d-flex flex-column">
         <div class="top-bar">
             <div class="d-flex align-items-center">
+                <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
                 <img src="{{ asset('img/lapas.png') }}" alt="Logo" class="logo">
                 <span class="title">JurnalLasgar</span>
             </div>
@@ -196,47 +212,45 @@
                 <input type="text" class="form-control" placeholder="Search">
                 <i class="fas fa-search search-icon"></i>
             </div>
-            <div class="user-profile">
-                <i class="far fa-bell fa-2x"></i>
-                <img src="{{ asset('img/lapas.png') }}" alt="User" class="img-fluid rounded-circle">
-            </div>
         </div>
         <div class="sidebar-and-content">
-            <div class="sidebar">
-                <a href="#">Dashboard</a>
+            <div class="sidebar" id="sidebar">
+                <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                 <div class="dropdown">
-                    <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Forms</a>
+                    <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-folder-open"></i> Forms
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="formsDropdown">
-                        <li><a href="{{ route('agenda.create') }}">Agenda</a></li>
-                        <li><a href="{{ route('atensi.index') }}">Atensi</a></li>
+                        <li><a href="{{ route('agenda.create') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                        <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a href="#" style="text-decoration: none; color: black;">Another Form</a></li>
+                        <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="text-decoration: none; color: black; cursor: pointer;">Akun</a>
+                    <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i> Akun
+                    </a>
                     <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                        <li><a href="#" style="text-decoration: none; color: black;">Profile</a></li>
+                        <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                        <a href="{{ route('logout') }}" 
-                        onclick="event.preventDefault(); 
-                       document.getElementById('logout-form').submit();" 
-                     style="text-decoration: none; color: black;">
-                  Logout
-                </a>
-     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-    @csrf
-</form>
+                            <a href="{{ route('logout') }}" 
+                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
                         </li>
                     </ul>
                 </div>
-            </div>     
-            <div class="main-content">
+            </div>
+            <div class="main-content" id="mainContent">
                 <div class="banner">
                     <img src="{{ asset('img/lapas2.jpg') }}" alt="Banner" class="img-fluid">
                     <div class="overlay-text">
-                        <h2>S.I.A.P LAPAS KELAS IIB GARUT</h2>
+                        <h2>S.I.A.P LAPAS KELAS IIA GARUT</h2>
                         <p>Sistem Informasi Agenda Pemasyarakatan</p>
                     </div>
                 </div>
@@ -246,7 +260,7 @@
                         <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
                     </ol>
                 </nav>
-                <h4>Reports / Today</h4>
+                <h3>Agenda</h3>
                 <div class="agenda-item">Agenda item 1</div>
                 <div class="agenda-item">Agenda item 2</div>
                 <div class="agenda-item">Agenda item 3</div>
@@ -254,8 +268,21 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
-</body>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function toggleSidebar() {
+            var sidebar = document.getElementById("sidebar");
+            var mainContent = document.getElementById("mainContent");
+
+            if (sidebar.classList.contains("show")) {
+                sidebar.classList.remove("show");
+                mainContent.style.marginLeft = "0";
+            } else {
+                sidebar.classList.add("show");
+                mainContent.style.marginLeft = "250px";
+            }
+        }
+    </script>
+</body>
 </html>

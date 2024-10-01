@@ -6,7 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class Agenda extends Model
 {
-    protected $fillable = ['nama', 'keterangan', 'tanggal'];
+    protected $fillable = [
+        'tanggal', 
+        'waktu', 
+        'acara_kegiatan', 
+        'pakaian', 
+        'tempat', 
+        'diikuti_oleh', 
+        'keterangan', 
+        'link_surat', 
+        'laporan_kegiatan', 
+        'dokumen_data_pendukung'
+    ];
+
 
     // Mengkonversi kolom 'tanggal' menjadi objek Carbon
     protected $dates = ['tanggal'];

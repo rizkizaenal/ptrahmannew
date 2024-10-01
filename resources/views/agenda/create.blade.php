@@ -28,6 +28,7 @@
         }
         input[type="text"],
         input[type="date"],
+        input[type="time"],
         textarea {
             width: 100%;
             padding: 10px;
@@ -61,19 +62,64 @@
 
         <form action="{{ route('agenda.store') }}" method="POST">
             @csrf
+            <!-- Hari/Tanggal -->
             <div class="mb-3">
-                <label for="nama" class="form-label">Nama Agenda:</label>
-                <input type="text" id="nama" name="nama" class="form-control" required>
+                <label for="tanggal" class="form-label">Hari/Tanggal:</label>
+                <input type="date" id="tanggal" name="tanggal" class="form-control" required>
             </div>
 
+            <!-- Waktu/Jam -->
+            <div class="mb-3">
+                <label for="waktu" class="form-label">Waktu/Jam:</label>
+                <input type="time" id="waktu" name="waktu" class="form-control" required>
+            </div>
+
+            <!-- Acara Kegiatan -->
+            <div class="mb-3">
+                <label for="acara_kegiatan" class="form-label">Acara Kegiatan:</label>
+                <input type="text" id="acara_kegiatan" name="acara_kegiatan" class="form-control" required>
+            </div>
+
+            <!-- Pakaian -->
+            <div class="mb-3">
+                <label for="pakaian" class="form-label">Pakaian:</label>
+                <input type="text" id="pakaian" name="pakaian" class="form-control" required>
+            </div>
+
+            <!-- Tempat -->
+            <div class="mb-3">
+                <label for="tempat" class="form-label">Tempat:</label>
+                <input type="text" id="tempat" name="tempat" class="form-control" required>
+            </div>
+
+            <!-- Diikuti Oleh -->
+            <div class="mb-3">
+                <label for="diikuti_oleh" class="form-label">Diikuti Oleh:</label>
+                <input type="text" id="diikuti_oleh" name="diikuti_oleh" class="form-control" required>
+            </div>
+
+            <!-- Keterangan -->
             <div class="mb-3">
                 <label for="keterangan" class="form-label">Keterangan:</label>
                 <textarea id="keterangan" name="keterangan" class="form-control" rows="4" required></textarea>
             </div>
 
+            <!-- Link Surat -->
             <div class="mb-3">
-                <label for="tanggal" class="form-label">Tanggal:</label>
-                <input type="date" id="tanggal" name="tanggal" class="form-control" required>
+                <label for="link_surat" class="form-label">Link Surat:</label>
+                <input type="url" id="link_surat" name="link_surat" class="form-control">
+            </div>
+
+            <!-- Laporan Kegiatan -->
+            <div class="mb-3">
+                <label for="laporan_kegiatan" class="form-label">Laporan Kegiatan:</label>
+                <textarea id="laporan_kegiatan" name="laporan_kegiatan" class="form-control" rows="3"></textarea>
+            </div>
+
+            <!-- Dokumen Data Pendukung -->
+            <div class="mb-3">
+                <label for="dokumen_data_pendukung" class="form-label">Dokumen Data Pendukung:</label>
+                <input type="file" id="dokumen_data_pendukung" name="dokumen_data_pendukung" class="form-control">
             </div>
 
             <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -93,8 +139,6 @@
                     </div>
                     <div class="modal-footer">
                         <a href="{{ route('dashboard') }}" class="btn btn-primary">OK</a>
-                        <a href="{{ route('dashboard') }}" class="btn btn-primary">Kembali ke Halaman Dashboard</a>
-
                     </div>
                 </div>
             </div>

@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('agendas', function (Blueprint $table) {
             $table->id();
-            $table->string('nama')->default(''); // Menetapkan nilai default kosong
-            $table->text('keterangan')->default(''); // Menetapkan nilai default kosong
-            $table->date('tanggal');
+            $table->date('tanggal'); // Hari/Tanggal
+            $table->time('waktu'); // Waktu/Jam
+            $table->string('acara_kegiatan'); // Acara Kegiatan
+            $table->string('pakaian'); // Pakaian
+            $table->string('tempat'); // Tempat
+            $table->string('diikuti_oleh'); // Diikuti Oleh
+            $table->text('keterangan'); // Keterangan
+            $table->string('link_surat')->nullable(); // Link Surat
+            $table->text('laporan_kegiatan')->nullable(); // Laporan Kegiatan
+            $table->string('dokumen_data_pendukung')->nullable(); // Dokumen Data Pendukung
             $table->timestamps();
         });
+        
     }
 
     /**

@@ -43,40 +43,49 @@
         }
     </style>
 
-    <table class="table">
+    <table class="table table-striped">
         <thead>
             <tr>
-                <th>Nama</th>
+                <th>No</th>
+                <th>Uraian Kegiatan</th>
+                <th>Saran Tindak Lanjut</th>
                 <th>Keterangan</th>
-                <th>Tanggal</th>
+                <th>File</th>
                 <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($agendas as $agenda)
-                <tr>
-                    <td>{{ $agenda->nama }}</td>
-                    <td>{{ $agenda->keterangan }}</td>
-                    <td>{{ $agenda->tanggal->format('d-m-Y') }}</td> <!-- Pastikan tanggal sudah berupa objek Carbon -->
-                    <td>
-                        <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                    </td>
-                </tr>
+            @foreach($agendas as $agenda)
+            <tr>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $agenda->acara_kegiatan }}</td> <!-- Sesuaikan field ini -->
+                <td>{{ $agenda->laporan_kegiatan }}</td> <!-- Sesuaikan field ini -->
+                <td>{{ $agenda->keterangan }}</td>
+                <td>
+                    @if($agenda->dokumen_data_pendukung)
+                    <a href="{{ $agenda->dokumen_data_pendukung }}" target="_blank">Download File</a> <!-- Sesuaikan penampilan file -->
+                    @else
+                    Tidak ada file
+                    @endif
+                </td>
+                <td>
+                    <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                    <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                    </form>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
 
     <div class="back-button">
-        <a href="{{ route('index') }}" class="btn btn-primary">Back</a>
+        <a href="{{ route('dashboard') }}" class="btn btn-primary">Back</a> <!-- Sesuaikan route -->
     </div>
 
     <div class="export-button">
-        <a href="{{ route('agenda.export') }}" class="btn btn-success">Export to Word</a>
-
+        <a href="{{ route('agenda.export') }}" class="btn btn-success">Export to PDF</a> <!-- Sesuaikan dengan PDF -->
     </div>
 @endsection

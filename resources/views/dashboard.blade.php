@@ -1,3 +1,9 @@
+@extends('layouts.app')
+
+@section('content')
+    <h1>Dashboard</h1>
+@endsection
+
 <table class="table">
     <thead>
         <tr>

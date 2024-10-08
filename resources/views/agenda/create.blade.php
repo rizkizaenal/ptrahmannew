@@ -53,14 +53,21 @@
     <div class="container mt-5">
         <h1 class="text-center">Input Agenda</h1>
 
-        <!-- Flash Message -->
-        @if(session('success'))
+        <!-- Flash Message untuk status sukses -->
+        @if (session('status'))
             <div class="alert alert-success">
-                {{ session('success') }}
+                {{ session('status') }}
             </div>
         @endif
 
-        <form action="{{ route('agenda.store') }}" method="POST">
+        <!-- Flash Message untuk error -->
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        <form action="{{ route('agenda.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <!-- Hari/Tanggal -->
             <div class="mb-3">

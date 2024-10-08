@@ -19,6 +19,7 @@ class Agenda extends Model
         'dokumen_data_pendukung'
     ];
 
+    protected $table = 'Agendas';
 
     // Mengkonversi kolom 'tanggal' menjadi objek Carbon
     protected $dates = ['tanggal'];

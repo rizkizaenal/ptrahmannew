@@ -10,28 +10,24 @@ use Illuminate\Support\Facades\Storage; // Untuk operasi file
 class AtensiController extends Controller
 {
     // Menampilkan daftar atensi
-    public function index()
-    {
-        // Mengambil semua data dari tabel 'atensi'
-        $data = Atensi::orderBy('created_at', 'desc')->get();// Menggunakan Atensi model, bukan Model
+    public function index(){
+        $data = Atensi::all();
+
         return view('atensi.index', compact('data'));
     }
 
 
     public function show($id)
     {
-        // Temukan data berdasarkan ID
         $atensi = Atensi::find($id);
     
-        // Jika data tidak ditemukan, arahkan kembali atau tampilkan pesan error
         if (!$atensi) {
             return redirect()->route('atensi.index')->with('error', 'Data tidak ditemukan');
         }
     
-        // Kembalikan view dengan data atensi
-        return redirect()->route('atensi.show', $atensi->id)->with('success', 'Atensi berhasil disimpan!');
+        return view('atensi.show', compact('atensi')); // Mengarahkan ke view dengan data
     }
-
+    
     public function __construct()
     {
         $this->middleware('auth'); // Pastikan middleware guest digunakan
@@ -44,76 +40,73 @@ class AtensiController extends Controller
     }
 
     
-    // Menyimpan data atensi
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'uraian_kegiatan' => 'required|string|max:255',
-            'saran_tindak_lanjut' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
-            'file' => 'nullable|file|max:2048',
+        $validated = $request->validate([
+            'tanggal_waktu' => 'required|date',
+            'yth' => 'required|string',
+            'kegiatan' => 'required|string',
+            'pelaksanaan_kegiatan' => 'required|string',
+            'uraian_kegiatan' => 'required|string',
+            'saran_tindak_lanjut' => 'required|string',
+            'penutup' => 'required|string',
+            'file' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
         ]);
-
-        try {
-            $filePath = null;
-            if ($request->hasFile('file')) {
-                $filePath = $request->file('file')->store('atensi_files');
-            }
-
-            $atensi = new Atensi();
-            $atensi->uraian_kegiatan = $validatedData['uraian_kegiatan'];
-            $atensi->saran_tindak_lanjut = $validatedData['saran_tindak_lanjut'];
-            $atensi->keterangan = $validatedData['keterangan'] ?? null;
-            $atensi->file = $filePath;
-            $atensi->save();
-
-            return redirect()->route('atensi.index')->with('success', 'Data atensi berhasil disimpan.');
-        } catch (Exception $e) {
-            return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage()]);
+    
+        // Simpan data
+        $atensi = new Atensi($validated);
+    
+        // Jika ada file, simpan
+        if ($request->hasFile('file')) {
+            $path = $request->file('file')->store('files', 'public');
+            $atensi->file = $path;
         }
+    
+        $atensi->save();
+    
+        return redirect()->route('atensi.index')->with('success', 'Atensi berhasil dibuat.');
     }
-
-    // Menampilkan form edit atensi
-    public function edit($id)
-    {
-        $atensi = Atensi::findOrFail($id);
-        return view('atensi.edit', compact('atensi'));
-    }
-
-    // Menyimpan perubahan data atensi yang sudah diedit
+            
+    
     public function update(Request $request, $id)
     {
         $validatedData = $request->validate([
+            'tanggal_waktu' => 'required|date',
+            'yth' => 'required|string|max:255',
+            'kegiatan' => 'required|string|max:255',
+            'pelaksanaan_kegiatan' => 'required|string|max:255',
             'uraian_kegiatan' => 'required|string|max:255',
-            'saran_tindak_lanjut' => 'required|string|max:255',
-            'keterangan' => 'nullable|string',
+            'saran_tindak_lanjut' => 'required|string|max:255', // Perbaikan di sini
+            'penutup' => 'nullable|string',
             'file' => 'nullable|file|max:2048',
         ]);
-
+    
         try {
             $atensi = Atensi::findOrFail($id);
-
+    
             if ($request->hasFile('file')) {
-                // Hapus file lama jika ada
                 if ($atensi->file) {
                     Storage::delete($atensi->file);
                 }
-
-                // Simpan file baru
-                $filePath = $request->file('file')->store('atensi_files');
+                $filePath = $request->file('file')->store('atensi_files', 'public'); // Simpan di public
                 $atensi->file = $filePath;
             }
-
-            $atensi->uraian_kegiatan = $validatedData['uraian_kegiatan'];
-            $atensi->saran_tindak_lanjut = $validatedData['saran_tindak_lanjut'];
-            $atensi->keterangan = $validatedData['keterangan'] ?? null;
-            $atensi->save();
-
+    
+            $atensi->update($validatedData);
+    
             return redirect()->route('atensi.index')->with('success', 'Data atensi berhasil diperbarui.');
         } catch (Exception $e) {
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat mengupdate data: ' . $e->getMessage()]);
         }
     }
+            
+
+     // Menampilkan form edit atensi
+     public function edit($id)
+     {
+         $atensi = Atensi::findOrFail($id);
+         return view('atensi.edit', compact('atensi'));
+     }
 
     // Menghapus data atensi
     public function destroy($id)

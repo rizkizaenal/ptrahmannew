@@ -1,7 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1 class="text-center mb-4">Daftar Agenda</h1>
+<div class="container">
+    <h1>Daftar Agenda</h1>
+    <a href="{{ route('agenda.create') }}" class="btn btn-secondary mb-3">Buat Agenda</a>
 
     @if(session('success'))
         <div class="alert alert-success">
@@ -43,53 +45,58 @@
         }
     </style>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Tanggal</th>
-                <th>Waktu</th>
-                <th>Acara Kegiatan</th>
-                <th>Pakaian</th>
-                <th>Tempat</th>
-                <th>Diikuti Oleh</th>
-                <th>Keterangan</th>
-                <th>Link Surat</th>
-                <th>Laporan Kegiatan</th>
-                <th>Dokumen Pendukung</th>
-                <th>Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($agendas as $agenda)
+<table class="table table-bordered">
+            <thead>
                 <tr>
-                    <td>{{ $agenda->tanggal }}</td>
-                    <td>{{ $agenda->waktu }}</td>
-                    <td>{{ $agenda->acara_kegiatan }}</td>
-                    <td>{{ $agenda->pakaian }}</td>
-                    <td>{{ $agenda->tempat }}</td>
-                    <td>{{ $agenda->diikuti_oleh }}</td>
-                    <td>{{ $agenda->keterangan }}</td>
-                    <td>
-                        <a href="{{ $agenda->link_surat }}" target="_blank">Surat</a>
-                    </td>
-                    <td>
-                        <a href="{{ $agenda->laporan_kegiatan }}" target="_blank">Laporan</a>
-                    </td>
-                    <td>
-                        <a href="{{ $agenda->dokumen_pendukung }}" target="_blank">Dokumen</a>
-                    </td>
-                    <td>
-                        <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning">Edit</a>
-                        <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Yakin ingin menghapus agenda ini?')">Hapus</button>
-                        </form>
-                    </td>
+                    <th>Tanggal</th>
+                    <th>Waktu</th>
+                    <th>Acara/Kegiatan</th>
+                    <th>Pakaian</th>
+                    <th>Tempat</th>
+                    <th>Diikuti Oleh</th>
+                    <th>Keterangan</th>
+                    <th>Link Surat</th>
+                    <th>Laporan Kegiatan</th>
+                    <th>Dokumen Pendukung</th>
+                    <th>Aksi</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @forelse($agendas as $agenda)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($agenda->tanggal)->format('d-m-Y') }}</td>
+                        <td>{{ $agenda->waktu }}</td>
+                        <td>{{ $agenda->acara_kegiatan }}</td>
+                        <td>{{ $agenda->pakaian }}</td>
+                        <td>{{ $agenda->tempat }}</td>
+                        <td>{{ $agenda->diikuti_oleh }}</td>
+                        <td>{{ $agenda->keterangan }}</td>
+                        <td><a href="{{ $agenda->link_surat }}" target="_blank">Lihat Surat</a></td>
+                        <td>{{ $agenda->laporan_kegiatan }}</td>
+                        <td>
+                            @if($agenda->dokumen_data_pendukung)
+                                <a href="{{ asset($agenda->dokumen_data_pendukung) }}" target="_blank">Download</a>
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ route('agenda.edit', $agenda->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                            <form action="{{ route('agenda.destroy', $agenda->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus agenda ini?')">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="11" class="text-center">Tidak ada data agenda.</td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-
+    <div class="d-flex justify-content-end mt-3">
+    <a href="{{ route('index') }}" class="btn btn-primary px-4 mr-3">Back</a>
+</div>
 @endsection

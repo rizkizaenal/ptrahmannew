@@ -11,9 +11,13 @@ class Atensi extends Model
 
     // Tentukan kolom-kolom yang dapat diisi secara massal
     protected $fillable = [
+        'tanggal_waktu',
+        'yth',
+        'kegiatan',
+        'pelaksanaan_kegiatan',
         'uraian_kegiatan',
-        'saran_tindak_lanjut',
-        'keterangan',
+        'saran_tidak_lanjut',
+        'penutup',
         'file',
     ];
 

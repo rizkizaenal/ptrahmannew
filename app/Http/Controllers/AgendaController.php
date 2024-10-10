@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use App\Models\Agenda;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class AgendaController extends Controller
 {
     // Menampilkan daftar agenda
     public function index()
     {
-        $agendas = Agenda::all(); // Ambil semua data agenda
-        return view('agenda.index', compact('agendas')); // Kirim data ke view
+        $agendas = Agenda::orderBy('tanggal', 'desc')->paginate(10);
+        return view('agenda.index', compact('agendas'));
     }
 
     public function store(Request $request)
@@ -149,4 +150,11 @@ class AgendaController extends Controller
     {
         return view('agenda.create');
     }
+    public function hapusAgendaLama()
+{
+    $oneYearAgo = Carbon::now()->subYear();
+    
+    // Hapus agenda yang lebih tua dari 1 tahun
+    Agenda::where('tanggal', '<', $oneYearAgo)->delete();
+}
 }

@@ -25,17 +25,12 @@ class AddNewFieldsToAtensiTable extends Migration
             $table->string('file')->nullable();
             $table->timestamps();
         });        
-        Schema::table('atensis', function (Blueprint $table) {
-            $table->dateTime('tanggal_waktu')->nullable(); // Menambah kolom tanggal_waktu
-        });
+        
     }
     
     
     public function down()
     {
         Schema::dropIfExists('atensis');
-        Schema::table('atensis', function (Blueprint $table) {
-            $table->dropColumn('tanggal_waktu'); // Menghapus kolom jika di-rollback
-        });
     }
 }

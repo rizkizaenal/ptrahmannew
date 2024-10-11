@@ -59,35 +59,38 @@
                 <th>Saran Tindak Lanjut</th>
                 <th>Penutup</th>
                 <th>File</th>
-                <th>Aksi</th>
+                <th scope="col" style="width: 15%">Aksi</th>
             </tr>
         </thead>
         <tbody>
-    @foreach($data as $atensi)
-        <tr>
-            <td>{{ $atensi->tanggal_waktu }}</td> <!-- Perbaiki kolom tanggal_waktu -->
-            <td>{{ $atensi->yth }}</td>                 
-            <td>{{ $atensi->kegiatan }}</td>
-            <td>{{ $atensi->pelaksanaan_kegiatan }}</td>
-            <td>{{ $atensi->uraian_kegiatan }}</td>
-            <td>{{ $atensi->saran_tindak_lanjut }}</td>
-            <td>{{ $atensi->penutup }}</td>
-            <td>
-                @if($atensi->file)
-                    <a href="{{ asset('storage/' . $atensi->file) }}" target="_blank">Download</a>
-                @endif
-            </td>
-            <td>
-                <a href="{{ route('atensi.edit', $atensi->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                <form action="{{ route('atensi.destroy', $atensi->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                </form>
+            @foreach($data as $atensi)
+                <tr>
+                    <td>{{ $atensi->tanggal_waktu }}</td> <!-- Perbaiki kolom tanggal_waktu -->
+                    <td>{{ $atensi->yth }}</td>                 
+                    <td>{{ $atensi->kegiatan }}</td>
+                    <td>{{ $atensi->pelaksanaan_kegiatan }}</td>
+                    <td>{{ $atensi->uraian_kegiatan }}</td>
+                    <td>{{ $atensi->saran_tindak_lanjut }}</td>
+                    <td>{{ $atensi->penutup }}</td>
+                    <td>
+                        @if($atensi->file)
+                        <a href="{{ asset($atensi->dokumen_data_pendukung) }}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
+                              @endif
+                    </td>
+                    <td>
+                        <a href="{{ route('atensi.edit', $atensi->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('atensi.destroy', $atensi->id) }}" method="POST" style="display:inline;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Delet</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
 </div>
+<div class="d-flex justify-content-end mt-3">
+        <a href="{{ route('index') }}" class="btn btn-primary px-4 back-button">Back</a> <!-- Menambahkan kelas back-button -->
+    </div>
 @endsection

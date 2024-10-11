@@ -12,7 +12,11 @@ class AgendaController extends Controller
     // Menampilkan daftar agenda
     public function index()
     {
-        $agendas = Agenda::orderBy('tanggal', 'desc')->paginate(10);
+        Agenda::where('tanggal', '<', Carbon::now()->subYear())->delete();
+
+        // Mengambil data agenda terbaru terlebih dahulu
+        $agendas = Agenda::orderBy('tanggal', 'desc')->get();
+    
         return view('agenda.index', compact('agendas'));
     }
 
@@ -66,33 +70,33 @@ class AgendaController extends Controller
         return view('agenda.edit', compact('agenda'));
     }
 
-    // Menyimpan perubahan data agenda
     public function update(Request $request, $id)
     {
         // Validasi data
         $validatedData = $request->validate([
-            'tanggal' => 'required|date',
-            'waktu' => 'required|string',
             'acara_kegiatan' => 'required|string|max:255',
-            'pakaian' => 'required|string|max:255',
+            'pakain' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
             'diikuti_oleh' => 'required|string|max:255',
             'keterangan' => 'required|string',
-            'link_surat' => 'nullable|url',
+            'tanggal' => 'required|date',
+            'waktu' => 'required|string',
+            'link_surat' => 'required|url',
             'laporan_kegiatan' => 'nullable|string',
-            'dokumen_data_pendukung' => 'nullable|file|mimes:pdf,docx,jpg,png|max:2048',
+            'dokumen_data_pendukung' => 'nullable|file|mimes:pdf,doc,docx',
         ]);
-
+    
         // Temukan agenda berdasarkan ID
         $agenda = Agenda::findOrFail($id);
-
-        // Upload file dokumen jika ada file baru
-        $dokumen = $agenda->dokumen_data_pendukung;
+        
+        // Perbarui data
+        $agenda->update($validatedData);
+    
+        // Jika ada file baru, unggah dan simpan path-nya
         if ($request->hasFile('dokumen_data_pendukung')) {
-            if ($dokumen && Storage::exists('public/' . $dokumen)) {
-                Storage::delete('public/' . $dokumen);
-            }
-            $dokumen = $request->file('dokumen_data_pendukung')->store('dokumen', 'public');
+            $file = $request->file('dokumen_data_pendukung')->store('dokumen_data_pendukung', 'public');
+            $agenda->dokumen_data_pendukung = $file;
+            $agenda->save();
         }
 
         // Update data agenda
@@ -110,8 +114,8 @@ class AgendaController extends Controller
         ]);
 
         // Redirect dengan pesan sukses
-        return redirect()->route('dashboard')->with('success', 'Agenda berhasil diperbarui.');
-    }
+        return redirect()->route('agenda.index')->with('success', 'Agenda berhasil diperbarui!');
+}
 
     // Menampilkan detail agenda
     public function show($id)

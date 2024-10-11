@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNewFieldsToAtensiTable extends Migration
+class CreateAtensiTable extends Migration
 {
     /**
      * Run the migrations.
@@ -15,7 +15,7 @@ class AddNewFieldsToAtensiTable extends Migration
     {
         Schema::create('atensis', function (Blueprint $table) {
             $table->id();
-            $table->time('tanggal_waktu');
+            $table->dateTime('tanggal_waktu')->nullable(); // Menggunakan dateTime untuk tanggal dan waktu
             $table->string('yth');
             $table->string('kegiatan');
             $table->string('pelaksanaan_kegiatan');
@@ -24,18 +24,16 @@ class AddNewFieldsToAtensiTable extends Migration
             $table->text('penutup')->nullable();
             $table->string('file')->nullable();
             $table->timestamps();
-        });        
-        Schema::table('atensis', function (Blueprint $table) {
-            $table->dateTime('tanggal_waktu')->nullable(); // Menambah kolom tanggal_waktu
         });
     }
-    
-    
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
     public function down()
     {
         Schema::dropIfExists('atensis');
-        Schema::table('atensis', function (Blueprint $table) {
-            $table->dropColumn('tanggal_waktu'); // Menghapus kolom jika di-rollback
-        });
     }
 }

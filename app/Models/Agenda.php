@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Agenda extends Model
 {
@@ -28,4 +29,15 @@ class Agenda extends Model
     protected $casts = [
         'tanggal' => 'datetime',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        // Menghapus data agenda yang lebih dari satu tahun ketika model di-load
+        static::retrieved(function ($model) {
+            $model::where('tanggal', '<', Carbon::now()->subYear())->delete();
+        });
+    }
 }
+

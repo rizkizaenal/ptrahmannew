@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <h2>Edit Agenda</h2>
-    <form action="{{ route('agenda.update', $agenda->id) }}" method="POST" enctype="multipart/form-data"> <!-- Menambahkan enctype -->
+    <form action="{{ route('agenda.update', $agenda->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -58,7 +58,10 @@
             <small class="form-text text-muted">Kosongkan jika tidak ingin mengubah dokumen.</small>
         </div>
 
-        <button type="submit" class="btn btn-primary">Update Agenda</button>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+    <button type="submit" class="btn btn-primary">Update Agenda</button>
+    <a href="{{ route('agenda.index') }}" class="btn btn-secondary">Back</a> <!-- Ubah rute ke daftar agenda -->
+</div>
     </form>
 </div>
 @endsection

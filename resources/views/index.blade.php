@@ -62,7 +62,6 @@
             color: #6c757d;
         }
 
-
         .sidebar-and-content {
             display: flex;
             margin-top: 60px;
@@ -163,7 +162,7 @@
         }
 
         .breadcrumb-item.active {
-            color: #6c757d;
+            color: #6c 757d;
         }
 
         .agenda-item {
@@ -214,37 +213,82 @@
             </div>
         </div>
         <div class="sidebar-and-content">
-            <div class="sidebar" id="sidebar">
-                <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-                <div class="dropdown">
-                    <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-folder-open"></i> Forms
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="formsDropdown">
-                        <li><a href="{{ route('agenda.create') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
-                        <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
-                    </ul>
-                </div>
-                <div class="dropdown">
-                    <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-user-circle"></i> Akun
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="accountDropdown">
-                        <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li>
-                            <a href="{{ route('logout') }}" 
-                               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fas fa-sign-out-alt"></i> Logout
+        <div class="sidebar" id="sidebar">
+    @auth
+        @if (auth()->user()->hasRole('admin'))
+            <!-- Sidebar for admin -->
+            <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard Admin</a>
+            <div class="dropdown">
+                <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-folder-open"></i> Forms
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="formsDropdown">
+                    <li><a href="{{ route('agenda.create') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                    <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
+                </ul>
+            </div>
+        @elseif (auth()->user()->hasRole('superadmin'))
+            <!-- Sidebar for super admin -->
+            <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard Super Admin</a>
+            <div class="dropdown">
+                <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-folder-open"></i> Forms
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="formsDropdown">
+                    <li><a href="{{ route('agenda.create') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                    <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
+                </ul>
+            </div>
+            @else
+                        <!-- Sidebar for other roles -->
+                        <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <div class="dropdown">
+                            <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-folder-open"></i> Forms
                             </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+                            <ul class="dropdown-menu" aria-labelledby="formsDropdown">
+                                <li><a href="{{ route('agenda.create') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                                <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i> Akun
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="accountDropdown">
+                                <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li>
+                                    <a href="{{ route('logout') }}" 
+                                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <i class="fas fa-sign-out-alt"></i> Logout
+                                    </a>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                        @csrf
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                    @endif
+
+        <!-- Logout link available for all authenticated users -->
+        <a href="{{ route('logout') }}"
+           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+           <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+
+        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+            @csrf
+        </form>
+    @endauth
+</div>
+
             </div>
             <div class="main-content" id="mainContent">
                 <div class="banner">

@@ -70,5 +70,7 @@ class Kernel extends HttpKernel
         // middleware lainnya
         'super_admin' => \App\Http\Middleware\SuperAdminMiddleware::class,
         'role' => \App\Http\Middleware\RoleMiddleware::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'redirect.role' => \App\Http\Middleware\RedirectIfRole::class,
     ];
 }

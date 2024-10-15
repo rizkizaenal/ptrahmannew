@@ -1,4 +1,5 @@
 <?php
+// app/Http/Middleware/RoleMiddleware.php
 
 namespace App\Http\Middleware;
 
@@ -7,20 +8,22 @@ use Illuminate\Support\Facades\Auth;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
-     * @param  string  $role
-     * @return mixed
-     */
     public function handle($request, Closure $next, $role)
     {
-        if (Auth::check() && Auth::user()->role == $role) {
-            return $next($request);
+        // Jika pengguna belum login, arahkan ke halaman login
+        if (!Auth::check()) {
+            return redirect('login');
         }
 
-        return redirect('/');
+        // Ambil pengguna yang sedang login
+        $user = Auth::user();
+
+        // Jika role pengguna tidak sesuai, arahkan ke halaman lain
+        if ($user->role !== $role) {
+            return redirect('dashboard'); // Ganti 'home' dengan halaman yang sesuai
+        }
+
+        // Lanjutkan jika role sesuai
+        return $next($request);
     }
 }

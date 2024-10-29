@@ -20,7 +20,6 @@ Auth::routes();
 
 // Rute setelah login berhasil
 Route::get('/home', function () {
-    // Mengarahkan pengguna ke halaman yang sesuai berdasarkan peran
     if (Auth::user()->hasRole('super_admin')) {
         return redirect()->route('super_admin.dashboard');
     } elseif (Auth::user()->hasRole('admin')) {
@@ -30,48 +29,59 @@ Route::get('/home', function () {
     }
 })->name('home');
 
-// Kelompok rute untuk pengguna yang telah login (user biasa)
+// Kelompok rute untuk pengguna biasa dengan role 'user'
 Route::middleware(['auth', 'role:user'])->group(function () {
-    // Rute untuk dashboard
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Rute untuk agenda
-    Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
-    Route::get('/agenda/create', [AgendaController::class, 'create'])->name('agenda.create');
-    Route::post('/agenda', [AgendaController::class, 'store'])->name('agenda.store');
-    Route::get('/agenda/{id}/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
-    Route::put('/agenda/{id}', [AgendaController::class, 'update'])->name('agenda.update');
-    Route::delete('/agenda/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
-    Route::get('/agenda/export', [AgendaController::class, 'export'])->name('agenda.export');
+    Route::prefix('agenda')->group(function () {
+        Route::get('/', [AgendaController::class, 'index'])->name('agenda.index');
+        Route::get('/create', [AgendaController::class, 'create'])->name('agenda.create');
+        Route::post('/', [AgendaController::class, 'store'])->name('agenda.store');
+        Route::get('/{id}/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
+        Route::put('/{id}', [AgendaController::class, 'update'])->name('agenda.update');
+        Route::delete('/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
+        Route::get('/export', [AgendaController::class, 'export'])->name('agenda.export');
+    });
 
-    // Rute untuk atensi
     Route::prefix('forms')->group(function () {
-        Route::resource('atensi', AtensiController::class);
+        // Menampilkan daftar atensi
         Route::get('/atensi', [AtensiController::class, 'index'])->name('atensi.index');
-        Route::get('/atensi/create', [AtensiController::class, 'create'])->name('forms.atensi.create');
+        
+        // Menampilkan form untuk membuat atensi baru
+        Route::get('/atensi/create', [AtensiController::class, 'create'])->name('atensi.create');
+        
+        // Menyimpan data atensi baru
         Route::post('/atensi/store', [AtensiController::class, 'store'])->name('atensi.store');
+        
+        // Menampilkan detail satu atensi
         Route::get('/atensi/{id}', [AtensiController::class, 'show'])->name('atensi.show');
+        
+        // Menampilkan form edit atensi
         Route::get('/atensi/{id}/edit', [AtensiController::class, 'edit'])->name('atensi.edit');
+        
+        // Mengupdate data atensi yang ada
         Route::put('/atensi/{id}', [AtensiController::class, 'update'])->name('atensi.update');
+        
+        // Menghapus data atensi
         Route::delete('/atensi/{id}', [AtensiController::class, 'destroy'])->name('atensi.destroy');
     });
+    
 });
 
 // Rute untuk profil
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
 // Kelompok rute untuk admin
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard'); // Rute dashboard admin
+Route::group(['middleware' => ['auth', 'role:admin']], function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 });
 
 // Kelompok rute untuk super admin
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
-    Route::get('/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super_admin.dashboard'); // Rute dashboard super admin
+    Route::get('/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super_admin.dashboard');
 });
 
 // Rute untuk mengekspor agenda

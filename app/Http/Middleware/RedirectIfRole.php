@@ -15,7 +15,7 @@ class RedirectIfRole
         $user = Auth::user();
 
         // Arahkan pengguna ke halaman berbeda berdasarkan role
-        if ($user->hasRole('superadmin')) {
+        if ($user->hasRole('super_admin')) {
             return redirect()->route('superadmin.dashboard');
         } elseif ($user->hasRole('admin')) {
             return redirect()->route('admin.dashboard');

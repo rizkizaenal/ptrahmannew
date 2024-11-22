@@ -12,7 +12,9 @@ class AtensiController extends Controller
     // Menampilkan daftar atensi
     public function index()
     {
-        $data = Atensi::all();
+       
+
+        $data = Atensi::orderBy('tanggal_waktu', 'desc')->get();
         return view('atensi.index', compact('data'));
     }
 
@@ -40,10 +42,13 @@ class AtensiController extends Controller
         $atensi = new Atensi($validated);
 
         // Jika ada file, simpan
-        if ($request->hasFile('file')) {
-            $path = $request->file('file')->store('files', 'public');
-            $atensi->file = $path;
-        }
+if ($request->hasFile('file')) {
+    $file = $request->file('file');
+    $filename = time() . '_' . $file->getClientOriginalName();
+    $filePath = $file->storeAs('uploads', $filename, 'public');
+    $atensi->file = '/storage/' . $filePath;
+}
+
 
         $atensi->save();
 
@@ -118,5 +123,17 @@ class AtensiController extends Controller
     
     return view('atensi.show', compact('atensi')); // Mengarahkan ke view dengan data
 }
-
+public function getLatestAtensis()
+{
+   
+    return Atensi::orderBy('tanggal', 'desc')->take(5)->get();
+}
+private function removeOldAtensis()
+{
+   
+    $count = Atensi::count();
+    if ($count > 5) {
+       atensi::orderBy('tanggal', 'asc')->take($count - 5)->delete();
+    }
+}
 }

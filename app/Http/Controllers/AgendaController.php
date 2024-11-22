@@ -10,14 +10,15 @@ use Carbon\Carbon;
 class AgendaController extends Controller
 {
     // Menampilkan daftar agenda
-    public function index()
-    {
-        Agenda::where('tanggal', '<', Carbon::now()->subYear())->delete();
-
-        // Mengambil data agenda terbaru terlebih dahulu
-        $agendas = Agenda::orderBy('tanggal', 'desc')->get();
-    
-        return view('agenda.index', compact('agendas'));
+    public function index() 
+    { 
+        // Hapus agenda yang lebih dari setahun 
+        Agenda::where('tanggal', '<', Carbon::now()->subYear())->delete(); 
+ 
+        // Mengambil data agenda terbaru berdasarkan data yang diubah terakhir 
+        $agendas = Agenda::orderBy('updated_at', 'desc')->get(); 
+     
+        return view('agenda.index', compact('agendas')); 
     }
 
     public function store(Request $request)
@@ -160,5 +161,18 @@ class AgendaController extends Controller
     
     // Hapus agenda yang lebih tua dari 1 tahun
     Agenda::where('tanggal', '<', $oneYearAgo)->delete();
+}
+public function getLatestAgendas()
+{
+    // Ambil 5 agenda terbaru
+    return Agenda::orderBy('tanggal', 'desc')->take(5)->get();
+}
+private function removeOldAgendas()
+{
+    // Hapus agenda jika lebih dari 5
+    $count = Agenda::count();
+    if ($count > 5) {
+        Agenda::orderBy('tanggal', 'asc')->take($count - 5)->delete();
+    }
 }
 }

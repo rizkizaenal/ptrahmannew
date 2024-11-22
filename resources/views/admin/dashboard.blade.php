@@ -13,7 +13,6 @@
             margin: 0;
             padding: 0;
         }
-
         .top-bar {
             background-color: #ffffff;
             padding: 10px 20px;
@@ -26,33 +25,26 @@
             top: 0;
             z-index: 1000;
         }
-
         .top-bar img.logo {
             max-width: 50px;
-            height: auto;
-            margin-right: 10px;
-            margin-left: 10px;
+            margin: 0 10px;
         }
-
         .title {
             font-size: 24px;
             font-weight: bold;
             color: #333;
             margin-left: 10px;
         }
-
         .search-bar {
             position: relative;
             width: 30%;
         }
-
         .search-bar input {
             width: 100%;
             padding: 10px 40px 10px 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
         }
-
         .search-bar .search-icon {
             position: absolute;
             right: 10px;
@@ -61,29 +53,21 @@
             font-size: 18px;
             color: #6c757d;
         }
-
         .sidebar-and-content {
             display: flex;
             margin-top: 60px;
         }
-
         .sidebar {
             width: 250px;
-            background-color: #fff;
+            background-color: #ffffff;
             padding: 20px;
             position: fixed;
             top: 60px;
-            left: -250px;
+            left: 0;
             height: calc(100vh - 60px);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             overflow-y: auto;
-            transition: left 0.3s ease;
         }
-
-        .sidebar.show {
-            left: 0;
-        }
-
         .sidebar a {
             display: flex;
             align-items: center;
@@ -93,49 +77,41 @@
             margin-bottom: 10px;
             border-radius: 5px;
         }
-
         .sidebar a:hover {
             background-color: #007bff;
             color: #fff;
         }
-
         .sidebar a i {
             margin-right: 10px;
         }
-
         .main-content {
             flex-grow: 1;
             padding: 20px;
             background-color: #ffffff;
-            border-left: 1px solid #dee2e6;
-            transition: margin-left 0.3s ease;
-            margin-left: 0; /* Start without sidebar */
+            margin-left: 250px;
         }
-
-        .main-content.margin-left {
-            margin-left: 250px; /* Add margin when sidebar is shown */
+        .content-box {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
         }
-
-        .menu-icon {
-            font-size: 30px;
-            cursor: pointer;
-            margin-left: 0px;
-            margin-right: 10px;
-            color: #007bff;
+        .content-box .box {
+            width: 24%;
+            color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
         }
-
-        @media (max-width: 768px) {
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-            }
-        }
+        .box-atensi { background-color: #4CAF50; }
+        .box-agenda { background-color: #FFA500; }
+        .box-akun { background-color: #FF5733; }
+        .box-admin { background-color: #007bff; }
     </style>
 </head>
 <body>
     <div class="top-bar">
         <div class="d-flex align-items-center">
-            <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
+            <i class="fas fa-bars menu-icon"></i>
             <img src="{{ asset('img/lapas.png') }}" alt="Logo" class="logo">
             <span class="title">JurnalLasgar</span>
         </div>
@@ -150,6 +126,7 @@
             <h4>Dashboard</h4>
             <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="#"><i class="fas fa-chart-line"></i> Statistics</a>
+            <a href="#"><i class="fas fa-user"></i> User Profile</a>
             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
@@ -159,34 +136,109 @@
         </div>
 
         <div class="main-content" id="mainContent">
-            <h3 class="mt-3">Agenda List</h3>
-            <ul class="list-group">
-                @foreach($agendas as $agenda)
-                    <li class="list-group-item">
-                        <strong>{{ $agenda->acara_kegiatan }}</strong><br>
-                        <small>Date: {{ $agenda->tanggal->format('d M Y') }} | Time: {{ $agenda->waktu }}</small><br>
-                        <small>Location: {{ $agenda->tempat }} | Attended by: {{ $agenda->diikuti_oleh }}</small><br>
-                        <small>{{ $agenda->keterangan }}</small>
-                    </li>
-                @endforeach
-            </ul>
+            <h3>Dashboard <span class="text-muted">Administrator</span></h3>
+
+            <div class="content-box">
+                <div class="box box-atensi">
+                    <h2>Atensi</h2>
+                    <p>Jumlah Atensi: {{ $atensiCount }}</p>
+                    <button onclick="showDetail('Atensi', 'Jumlah atensi yang ada: {{ $atensiCount }}')" class="btn btn-light">Lihat Detail Atensi</button>
+                </div>
+                <div class="box box-agenda">
+                    <h2>Agenda</h2>
+                    <p>Jumlah Agenda: {{ $agendaCount }}</p>
+                    <button onclick="showDetail('Agenda', 'Jumlah agenda yang ada: {{ $agendaCount }}')" class="btn btn-light">Lihat Detail Agenda</button>
+                </div>
+                <div class="box box-akun">
+                    <h2>Akun</h2>
+                    <p>Jumlah Akun: {{ $userCount }}</p>
+                    <button onclick="showDetail('UserAkun', 'Jumlah akun yang ada: {{ $userCount }}')" class="btn btn-light">Lihat Detail User akun</button>
+                </div>
+            </div>
+
+            <div class="user-table-section mt-4">
+                <div class="d-flex justify-content-between align-items-center"> 
+                    <button class="btn btn-primary" onclick="window.location='{{ route('register') }}'">Create User</button>
+                </div>
+
+                <div class="table-responsive mt-4">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nama</th>
+                                <th>Username</th>
+                                <th>Password</th>
+                                <th>Email</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>ismi nurunizqi</td>
+                                <td>ismi</td>
+                                <td>ismi</td>
+                                <td>isminurunizqi@gmail.com</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>mitsuki tok</td>
+                                <td>mitsuki</td>
+                                <td>mitsuki</td>
+                                <td>mitsuki@gmail.com</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>sarada uchiha</td>
+                                <td>sarada</td>
+                                <td>sarada</td>
+                                <td>sarada@gmail.com</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>sasuke uchiha</td>
+                                <td>sasuke</td>
+                                <td>sasuke</td>
+                                <td>sasuke@gmail.com</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>shikadai nara</td>
+                                <td>shikadai</td>
+                                <td>shikadai</td>
+                                <td>shikadai@gmail.com</td>
+                                <td>
+                                    <button class="btn btn-success btn-sm">Edit</button>
+                                  <button class="btn btn-danger btn-sm">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function toggleSidebar() {
-            var sidebar = document.getElementById("sidebar");
-            var mainContent = document.getElementById("mainContent");
-
-            if (sidebar.style.left === "0px") {
-                sidebar.style.left = "-250px"; // Hide the sidebar
-                mainContent.classList.remove('margin-left'); // Remove margin
-            } else {
-                sidebar.style.left = "0px"; // Show the sidebar
-                mainContent.classList.add('margin-left'); // Add margin
-            }
+        function showDetail(title, message) {
+            alert(title + ": " + message);
         }
     </script>
 </body>

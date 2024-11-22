@@ -75,7 +75,7 @@
                     <td>{{ $atensi->penutup }}</td>
                     <td>
                         @if($atensi->file)
-                        <a href="{{ asset($atensi->dokumen_data_pendukung) }}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
+                        <a href="{{ asset($atensi->file) }}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
                               @endif
                     </td>
                     <td>

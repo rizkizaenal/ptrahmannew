@@ -82,6 +82,10 @@ Route::group(['middleware' => ['auth', 'role:admin']], function () {
 // Kelompok rute untuk super admin
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::get('/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super_admin.dashboard');
+    Route::get('profile/edit/{id}', [SuperAdminController::class, 'editProfile'])->name('superadmin.profile.edit');
+    Route::put('profile/update/{id}', [SuperAdminController::class, 'updateProfile'])->name('superadmin.profile.update');
+    Route::delete('superadmin/profile/{id}/delete-photo', [SuperadminController::class, 'deletePhoto'])->name('superadmin.profile.delete_photo');
+
 });
 
 // Rute untuk mengekspor agenda

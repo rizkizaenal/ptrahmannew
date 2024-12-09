@@ -190,6 +190,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <h4>Users</h4>
                         <button class="btn btn-primary" onclick="window.location='{{ route('register') }}'">Create User</button>
+
                     </div>
                     <table class="table table-bordered">
                         <thead class="table-light">

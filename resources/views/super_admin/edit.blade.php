@@ -35,52 +35,21 @@
             border-radius: 6px;
             font-size: 1rem;
         }
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #004085;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            border-color: #dc3545;
-        }
-        .btn-danger:hover {
-            background-color: #c82333;
-            border-color: #bd2130;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            border-color: #6c757d;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-            border-color: #545b62;
-        }
+        .btn-primary:hover { background-color: #0056b3; border-color: #004085; }
+        .btn-danger:hover { background-color: #c82333; border-color: #bd2130; }
+        .btn-secondary:hover { background-color: #5a6268; border-color: #545b62; }
         .form-control {
             border-radius: 6px;
             font-size: 1rem;
             padding: 12px;
             border: 1px solid #ccc;
         }
-        .alert {
-            margin-bottom: 20px;
-        }
+        .alert { margin-bottom: 20px; }
         .row img {
             border-radius: 50%;
             object-fit: cover;
-            width: 150px;  /* Set width to a fixed size */
-            height: 150px; /* Set height to a fixed size */
-        }
-        .d-flex {
-            gap: 20px;
-        }
-        .row {
-            display: flex;
-            align-items: center;
-            gap: 30px;
+            width: 150px;
+            height: 150px;
         }
         .top-bar {
             display: flex;
@@ -88,16 +57,6 @@
             padding: 15px;
             background-color: #343a40;
             color: white;
-        }
-        .top-bar h3 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        .card {
-            padding: 30px;
-            border-radius: 8px;
-            background-color: #f8f9fa;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
@@ -113,7 +72,7 @@
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <div class="card">
+        <div class="card p-4">
             <form action="{{ route('superadmin.profile.update', $user->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -138,34 +97,22 @@
                             <input type="email" name="email" class="form-control" id="email" value="{{ $user->email }}" required>
                         </div>
                         <div class="mb-3">
-                            <label for="old_password" class="form-label">Old Password</label>
-                            <input type="password" name="old_password" class="form-control" id="old_password">
-                        </div>
-                        <div class="mb-3">
-                            <label for="new_password" class="form-label">New Password</label>
-                            <input type="password" name="new_password" class="form-control" id="new_password">
-                        </div>
-                        <div class="mb-3">
-                            <label for="confirm_password" class="form-label">Confirm Password</label>
-                            <input type="password" name="confirm_password" class="form-control" id="confirm_password">
-                        </div>
-                        <div class="mb-3">
                             <label for="photo" class="form-label">Change Profile Photo</label>
                             <input type="file" name="photo" class="form-control" id="photo">
                         </div>
                         <button type="submit" class="btn btn-primary">Update Profile</button>
                     </div>
                 </div>
-
-                <div class="d-flex mt-4">
-                    <form action="{{ route('superadmin.profile.delete_photo', $user->id) }}" method="POST" class="me-2">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-danger">Delete Profile Photo</button>
-                    </form>
-                    <a href="{{ route('super_admin.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
-                </div>
             </form>
+
+            <!-- Form Hapus Foto -->
+            <form action="{{ route('superadmin.profile.deletePhoto', $user->id) }}" method="POST" class="mt-3">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Remove Profile Photo</button>
+            </form>
+
+            <a href="{{ route('super_admin.dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
         </div>
     </div>
 </body>

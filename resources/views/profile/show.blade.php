@@ -13,8 +13,11 @@
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
-        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+
+        <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
             @csrf
+            @method('PUT') <!-- Add the PUT method here -->
+
             <div class="row mb-3">
                 <div class="col-md-3 text-center">
                     @if($user->photo)
@@ -42,14 +45,14 @@
                     </div>
                     <div class="mb-3">
                         <label for="confirm_password" class="form-label">Confirm Password</label>
-                        <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                        <input type="password" name="new_password_confirmation" class="form-control" id="confirm_password">
                     </div>
                     <div class="mb-3">
                         <label for="photo" class="form-label">Change Profile Photo</label>
                         <input type="file" name="photo" class="form-control" id="photo" onchange="previewImage(event)">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Profile</button>
-                    <a href="{{ route('dashboard') }}" class="btn btn-secondary">Kembali</a>
+                    <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
                 </div>
             </div>
         </form>
@@ -68,7 +71,7 @@
             if (file) {
                 reader.readAsDataURL(file);
             } else {
-                profileImage.src = ""; // Reset jika tidak ada file
+                profileImage.src = ""; // Reset if no file
             }
         }
     </script>

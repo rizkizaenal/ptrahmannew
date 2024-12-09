@@ -27,7 +27,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest'); // Pastikan middleware guest digunakan
+        $this->middleware('auth'); // Pastikan middleware guest digunakan
     }
 
     /**

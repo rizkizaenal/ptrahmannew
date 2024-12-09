@@ -75,18 +75,25 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Kelompok rute untuk admin
-Route::group(['middleware' => ['auth', 'role:admin']], function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-});
+
 
 // Kelompok rute untuk super admin
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
     Route::get('/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super_admin.dashboard');
-    Route::get('profile/edit/{id}', [SuperAdminController::class, 'editProfile'])->name('superadmin.profile.edit');
-    Route::put('profile/update/{id}', [SuperAdminController::class, 'updateProfile'])->name('superadmin.profile.update');
-    Route::delete('superadmin/profile/{id}/delete-photo', [SuperadminController::class, 'deletePhoto'])->name('superadmin.profile.delete_photo');
+   // Edit profile route
+Route::get('profile/edit/{id}', [SuperAdminController::class, 'editProfile'])->name('superadmin.profile.edit');
+
+// Update profile route
+Route::put('profile/update/{id}', [SuperAdminController::class, 'updateProfile'])->name('superadmin.profile.update');
+
+// Delete profile photo route
+Route::delete('profile/photo/{id}', [SuperAdminController::class, 'deletePhoto'])->name('superadmin.profile.deletePhoto');
+
+Auth::routes();
 
 });
+Auth::routes();
+
 
 // Rute untuk mengekspor agenda
 Route::get('/export-agenda', function () {

@@ -332,7 +332,7 @@
         <div class="sidebar" id="sidebar">
    
                         <!-- Sidebar for other roles -->
-                        <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a href="{{ route('dashboard')}}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                         <div class="dropdown">
                             <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-folder-open"></i> Forms

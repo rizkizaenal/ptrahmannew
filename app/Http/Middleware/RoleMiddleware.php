@@ -8,14 +8,8 @@ class RoleMiddleware
 {
     public function handle($request, Closure $next, $role)
     {
-        if (!Auth::check()) {
-            return redirect('login');
-        }
-
-        $user = Auth::user();
-
-        if ($user->role !== $role) {
-            return redirect('home'); // Redirect ke halaman yang sesuai jika pengguna tidak memiliki peran yang diinginkan
+        if (!Auth::check() || Auth::user()->role !== $role) {
+            abort(403, 'Unauthorized action.');
         }
 
         return $next($request);

@@ -103,36 +103,83 @@
 </head>
 <body class="antialiased">
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="#">
-                <img src="{{ asset('img/pengayom(1).jpg') }}" alt="Logo 1"> <!-- Ganti dengan path ke logo 1 -->
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand" href="#">
+            <img src="{{ asset('img/pengayom(1).jpg') }}" alt="Logo 1">
+        </a>
+
+        <!-- Toggle Button untuk Mobile View -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Menu Navigasi -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <!-- Link Home -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Home</a>
+                </li>
+
+                <!-- Link About -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#about">About</a>
+                </li>
+
+                <!-- Link Contact -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+
+                <!-- Authentication Links -->
+                @guest
+                    <!-- Login -->
+                    @if (Route::has('login'))
+                        <li class="nav-item">
+                            <a class="nav-link btn btn-danger text-white" href="{{ route('login') }}">Login</a>
+                        </li>
+                    @endif
+
+                    <!-- Register -->
+                @else
+                    <!-- User Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {{ Auth::user()->name }}
+                        </a>
+
+                        <!-- Dropdown Menu -->
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            <!-- Admin Dashboard -->
+                            @if (Auth::user()->role === 'admin')
+                                <a class="dropdown-item" href="{{ route('admin.dashboard') }}">Admin Dashboard</a>
+                            @endif
+
+                            <!-- Dashboard -->
+                            <a class="dropdown-item" href="{{ route('dashboard') }}">
+                                <i class="fas fa-tachometer-alt"></i> Dashboard
+                            </a>
+
+                            <!-- Logout -->
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+
+                            <!-- Logout Form -->
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a> <!-- Ubah link di sini -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contact">Contact</a> <!-- Tambahkan link ke bagian Contact -->
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-danger text-white" href="{{ route('login') }}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link btn btn-warning text-white" href="{{ route('register') }}">Register</a>
-                    </li>
-                </ul>
-            </div>
+                @endguest
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
+
+
 
     <!-- Carousel -->
     <div id="photoCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">

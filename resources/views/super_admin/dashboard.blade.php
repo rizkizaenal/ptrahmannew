@@ -149,7 +149,7 @@
     <div class="sidebar-and-content">
         <div class="sidebar" id="sidebar">
             <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-            <a href="#"><i class="fas fa-users"></i> Users</a>
+            <a href="{{ route('super_admin.dashboard')}}"><i class="fas fa-users"></i> Users</a>
             <a href="#"><i class="fas fa-cogs"></i> Settings</a>
             <a href="{{ route('logout') }}" 
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

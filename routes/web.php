@@ -89,6 +89,12 @@ Route::put('profile/update/{id}', [SuperAdminController::class, 'updateProfile']
 // Delete profile photo route
 Route::delete('profile/photo/{id}', [SuperAdminController::class, 'deletePhoto'])->name('superadmin.profile.deletePhoto');
 
+
+// In routes/web.php
+Route::get('/super-admin/users', [SuperAdminController::class, 'users'])->name('super_admin.users');
+
+Route::get('/super_admin/show/{id}/{type}', [SuperAdminController::class, 'show'])->name('super_admin.show');
+
 Auth::routes();
 
 });

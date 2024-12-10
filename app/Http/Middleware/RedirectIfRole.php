@@ -20,7 +20,7 @@ class RedirectIfRole
         } elseif ($user->hasRole('admin')) {
             return redirect()->route('super_admin.dashboard');
         } elseif ($user->hasRole('user')) {
-            return redirect()->route('user.dashboard');
+            return redirect()->route('dashboard');
         }
 
         // Jika role tidak ditemukan, lanjutkan permintaan

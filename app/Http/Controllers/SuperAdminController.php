@@ -9,22 +9,41 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Agenda;
 use App\Models\Atensi;
+use Carbon\Carbon;
 
 class SuperAdminController extends Controller
 {
-
     public function index()
     {
-        $agendas = Agenda::all(); // Make sure you fetch your agendas
-        $atensi = Atensi::all(); // Fetch attentions if needed
-        $users = User::paginate(10); // Fetch users if needed
-        $hasSuperAdmin = User::where('role', 'superadmin')->exists();
+        // Ambil data agenda dan atensi untuk grafik
+        $agendas = Agenda::all();
+        $atensi = Atensi::all();
 
-        return view('super_admin.dashboard', compact('agendas', 'atensi', 'users'));
+        // Mengambil data per bulan untuk grafik
+        $agendaMonthlyCounts = $agendas->groupBy(function($date) {
+            return Carbon::parse($date->created_at)->format('Y-m'); // Mengelompokkan berdasarkan tahun-bulan
+        })->map->count();
+
+        $atensiMonthlyCounts = $atensi->groupBy(function($date) {
+            return Carbon::parse($date->created_at)->format('Y-m'); // Mengelompokkan berdasarkan tahun-bulan
+        })->map->count();
+
+        // Siapkan data untuk chart
+        $agendaMonths = $agendaMonthlyCounts->keys()->toArray();
+        $agendaCounts = $agendaMonthlyCounts->values()->toArray();
+
+        $atensiMonths = $atensiMonthlyCounts->keys()->toArray();
+        $atensiCounts = $atensiMonthlyCounts->values()->toArray();
+        
+        $latestAgendas = Agenda::orderBy('tanggal', 'desc')->take(5)->get(); // Call the method to get the latest agendas
+        $latestAtensis = Atensi::orderBy('tanggal_waktu', 'desc')->take(5)->get();
+
+        return view('super_admin.dashboard', compact('agendas', 'atensi', 'agendaMonths', 'agendaCounts', 'atensiMonths', 'atensiCounts','latestAgendas', 'latestAtensis'));
     }
+
     public function __construct()
     {
-        $this->middleware('auth'); // Ensure authentication
+        $this->middleware('auth'); // Pastikan user sudah login
     }
 
     public function editProfile($id)
@@ -46,7 +65,7 @@ class SuperAdminController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        // Update name and email
+        // Update nama dan email
         $user->name = $request->name;
         $user->email = $request->email;
 
@@ -59,10 +78,10 @@ class SuperAdminController extends Controller
             }
         }
 
-        // Update profile photo
+        // Update foto profil
         if ($request->hasFile('photo')) {
             if ($user->photo) {
-                Storage::delete('public/' . $user->photo); // Delete old photo
+                Storage::delete('public/' . $user->photo); // Hapus foto lama
             }
             $filePath = $request->file('photo')->store('profile_photos', 'public');
             $user->photo = $filePath;
@@ -74,18 +93,41 @@ class SuperAdminController extends Controller
     }
 
     public function deletePhoto($id)
-{
-    $user = User::findOrFail($id);
+    {
+        $user = User::findOrFail($id);
 
-    // Hapus file foto dari storage jika ada
-    if ($user->photo && \Storage::exists($user->photo)) {
-        \Storage::delete($user->photo);
+        // Hapus file foto dari storage jika ada
+        if ($user->photo && \Storage::exists($user->photo)) {
+            \Storage::delete($user->photo);
+        }
+
+        // Update kolom `photo` menjadi null
+        $user->photo = null;
+        $user->save();
+
+        return redirect()->back()->with('success', 'Profile photo has been removed successfully!');
     }
+    public function users()
+    {
+        $users = User::paginate(10); // Fetch users with pagination
+        $agendas = Agenda::all(); // Make sure you fetch your agendas
+        $atensi = Atensi::all(); // Fetch attentions if needed
+        $users = User::paginate(10); // Fetch users if needed
+        $hasSuperAdmin = User::where('role', 'superadmin')->exists();
 
-    // Update kolom `photo` menjadi null
-    $user->photo = null;
-    $user->save();
+         return view('super_admin.index', compact('users', 'agendas', 'atensi')); // Include agendas here
+    }
+    public function show($id, $type)
+    {
+        // Validasi type agar hanya menerima 'agenda' atau 'atensi'
+        if (!in_array($type, ['agenda', 'atensi'])) {
+            abort(404);
+        }
 
-    return redirect()->back()->with('success', 'Profile photo has been removed successfully!');
-}
+        // Ambil data berdasarkan tipe
+        $data = $type === 'agenda' ? Agenda::findOrFail($id) : Atensi::findOrFail($id);
+
+        // Kirim data ke view
+        return view('super_admin.show', compact('data', 'type'));
+    }
 }

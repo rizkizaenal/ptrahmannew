@@ -34,7 +34,7 @@ class LoginController extends Controller
     } elseif ($user->hasRole('admin')) {
         return redirect()->route('admin.dashboard'); // Pastikan ini benar
     } elseif ($user->hasRole('user')) {
-        return redirect()->route('user.dashboard');
+        return redirect()->route('dashboard');
     }
 
     // Jika role tidak ditemukan, default ke dashboard umum

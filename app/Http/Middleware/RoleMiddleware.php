@@ -9,9 +9,10 @@ class RoleMiddleware
     public function handle($request, Closure $next, $role)
     {
         if (!Auth::check() || Auth::user()->role !== $role) {
-            abort(403, 'Unauthorized action.');
+            abort(403, 'Unauthorized action: User role mismatch.');
         }
-
+    
         return $next($request);
     }
+    
 }

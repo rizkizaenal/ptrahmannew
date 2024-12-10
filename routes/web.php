@@ -79,7 +79,7 @@ Route::middleware(['auth'])->group(function () {
 
 // Kelompok rute untuk super admin
 Route::middleware(['auth', 'role:super_admin'])->group(function () {
-    Route::get('/admin/dashboard', [SuperAdminController::class, 'index'])->name('super_admin.dashboard');
+    Route::get('/super-admin/dashboard', [SuperAdminController::class, 'index'])->name('super_admin.dashboard');
    // Edit profile route
 Route::get('profile/edit/{id}', [SuperAdminController::class, 'editProfile'])->name('superadmin.profile.edit');
 

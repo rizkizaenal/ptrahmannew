@@ -26,7 +26,21 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/dashboard';
+    protected function authenticated(Request $request, $user)
+{
+    // Arahkan pengguna ke halaman berbeda berdasarkan role
+    if ($user->hasRole('super_admin')) {
+        return redirect()->route('super_admin.dashboard');
+    } elseif ($user->hasRole('admin')) {
+        return redirect()->route('admin.dashboard'); // Pastikan ini benar
+    } elseif ($user->hasRole('user')) {
+        return redirect()->route('user.dashboard');
+    }
+
+    // Jika role tidak ditemukan, default ke dashboard umum
+    return redirect('/dashboard');
+}
+
 
     /**
      * Create a new controller instance.

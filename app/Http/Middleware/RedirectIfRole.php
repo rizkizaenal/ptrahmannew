@@ -16,9 +16,9 @@ class RedirectIfRole
 
         // Arahkan pengguna ke halaman berbeda berdasarkan role
         if ($user->hasRole('super_admin')) {
-            return redirect()->route('superadmin.dashboard');
+            return redirect()->route('super_admin.dashboard');
         } elseif ($user->hasRole('admin')) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('super_admin.dashboard');
         } elseif ($user->hasRole('user')) {
             return redirect()->route('user.dashboard');
         }

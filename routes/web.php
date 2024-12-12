@@ -72,6 +72,7 @@ Route::middleware(['auth', 'role:user'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
     Route::post('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
+
 });
 
 // Kelompok rute untuk admin
@@ -94,6 +95,7 @@ Route::delete('profile/photo/{id}', [SuperAdminController::class, 'deletePhoto']
 Route::get('/super-admin/users', [SuperAdminController::class, 'users'])->name('super_admin.users');
 
 Route::get('/super_admin/show/{id}/{type}', [SuperAdminController::class, 'show'])->name('super_admin.show');
+Route::delete('/superadmin/profile/{id}/delete', [SuperAdminController::class, 'destroy'])->name('superadmin.profile.delete');
 
 Auth::routes();
 

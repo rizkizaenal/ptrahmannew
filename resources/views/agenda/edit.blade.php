@@ -4,8 +4,9 @@
 <div class="container">
     <h2>Edit Agenda</h2>
     <form action="{{ route('agenda.update', $agenda->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+    @csrf
+    @method('PUT')
+
 
         <div class="form-group">
             <label for="acara_kegiatan">Acara Kegiatan</label>

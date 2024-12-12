@@ -5,75 +5,137 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.3/font/bootstrap-icons.min.css">
+    <style>
+        body {
+            background-color: #f4f6f9;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        .container h2 {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-label {
+            font-weight: 600;
+            color: #555;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+        .form-control {
+            border-radius: 6px;
+            padding: 10px;
+        }
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+        }
+        .top-bar {
+            background-color: #343a40;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        .top-bar h3 {
+            margin: 0;
+        }
+        .alert {
+            margin-top: 15px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Profile</h2>
+    <div class="top-bar">
+        <h3>Profile</h3>
+    </div>
+
+    <div class="container">
+        <h2>Edit Profile</h2>
+
         @if(session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
 
-        <form action="{{ route('profile.update', ['id' => $user->id]) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT') <!-- Add the PUT method here -->
+        @if(session('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
 
-            <div class="row mb-3">
-                <div class="col-md-3 text-center">
-                    @if($user->photo)
-                        <img id="profileImage" src="{{ asset('storage/' . $user->photo) }}" alt="Profile Photo" class="img-fluid img-thumbnail" style="width: 150px; height: 150px;">
-                    @else
-                        <i class="bi bi-person-circle" style="font-size: 150px; color: gray;"></i>
-                    @endif
+        <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="mb-3 text-center">
+                <img src="{{ asset('storage/' . ($user->photo ?? 'default-profile.png')) }}" alt="Profile Photo" class="profile-photo">
+                <div>
+                    <label for="photo" class="form-label">Change Profile Photo</label>
+                    <input type="file" class="form-control" name="photo" id="photo">
+                    @error('photo')
+                        <div class="text-danger">{{ $message }}</div>
+                    @enderror
                 </div>
-                <div class="col-md-9">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control" id="name" value="{{ $user->name }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email Address</label>
-                        <input type="email" name="email" class="form-control" id="email" value="{{ $user->email }}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="old_password" class="form-label">Old Password</label>
-                        <input type="password" name="old_password" class="form-control" id="old_password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="new_password" class="form-label">New Password</label>
-                        <input type="password" name="new_password" class="form-control" id="new_password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="confirm_password" class="form-label">Confirm Password</label>
-                        <input type="password" name="new_password_confirmation" class="form-control" id="confirm_password">
-                    </div>
-                    <div class="mb-3">
-                        <label for="photo" class="form-label">Change Profile Photo</label>
-                        <input type="file" name="photo" class="form-control" id="photo" onchange="previewImage(event)">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Update Profile</button>
-                    <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
-                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control" name="name" id="name" value="{{ old('name', $user->name) }}" required>
+                @error('name')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" name="email" id="email" value="{{ old('email', $user->email) }}" required>
+                @error('email')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="old_password" class="form-label">Old Password</label>
+                <input type="password" class="form-control" name="old_password" id="old_password">
+                @error('old_password')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="new_password" class="form-label">New Password</label>
+                <input type="password" class="form-control" name="new_password" id="new_password">
+                @error('new_password')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="mb-3">
+                <label for="new_password_confirmation" class="form-label">Confirm New Password</label>
+                <input type="password" class="form-control" name="new_password_confirmation" id="new_password_confirmation">
+                @error('new_password_confirmation')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Update Profile</button>
+                <a href="{{ route('dashboard') }}" class="btn btn-secondary">Back</a>
             </div>
         </form>
     </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function previewImage(event) {
-            const profileImage = document.getElementById('profileImage');
-            const file = event.target.files[0];
-            const reader = new FileReader();
 
-            reader.onload = function() {
-                profileImage.src = reader.result;
-            }
-            if (file) {
-                reader.readAsDataURL(file);
-            } else {
-                profileImage.src = ""; // Reset if no file
-            }
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -6,6 +6,7 @@
     <title>Super Admin Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+   
     <style>
         /* Styling untuk top-bar */
         .top-bar {
@@ -132,6 +133,7 @@
     </style>
 </head>
 <body>
+
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="d-flex align-items-center">
@@ -164,6 +166,11 @@
         <div class="main-content">
             <div class="container">
                 <!-- Dashboard Overview -->
+                @if(session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+@endif
                 <div class="dashboard-overview">
 
                     <div class="dashboard-card">
@@ -228,11 +235,18 @@
 </td>
 
                                 <td>
-                                <a href="{{ route('superadmin.profile.edit', $user->id) }}" class="text-warning"><i class="fas fa-edit"></i></a>
+                                <a href="{{ route('superadmin.profile.edit', $user->id) }}" ><i class="fas fa-edit"></i></a>
+                                <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
+    <i class="fas fa-trash"></i>
+</a>
 
-                                    <form action="#" method="POST" style="display:inline;">
-                                        <button type="submit" class="text-danger"><i class="fas fa-trash"></i></button>
-                                    </form>
+<form id="delete-form-{{ $user->id }}" action="{{ route('superadmin.profile.delete', $user->id) }}" method="POST" style="display: none;">
+    @csrf
+    @method('DELETE')
+</form>
+
+
+                                    
                                 </td>
                             </tr>
                             @endforeach

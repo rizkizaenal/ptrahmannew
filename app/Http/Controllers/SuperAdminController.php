@@ -62,7 +62,7 @@ class SuperAdminController extends Controller
             'old_password' => 'nullable',
             'new_password' => 'nullable|min:8',
             'confirm_password' => 'same:new_password',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Update nama dan email
@@ -130,4 +130,15 @@ class SuperAdminController extends Controller
         // Kirim data ke view
         return view('super_admin.show', compact('data', 'type'));
     }
+    public function destroy($id)
+{
+    $user = User::findOrFail($id); // Cari pengguna berdasarkan ID
+    if ($user->photo && Storage::exists('public/' . $user->photo)) {
+        // Hapus foto profil jika ada
+        Storage::delete('public/' . $user->photo);
+    }
+    $user->delete(); // Hapus pengguna dari database
+    return redirect()->route('super_admin.users')->with('success', 'User account deleted successfully!');
+}
+
 }

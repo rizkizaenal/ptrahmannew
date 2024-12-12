@@ -23,24 +23,24 @@ class ProfileController extends Controller
     }
 
     // Update the user profile
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $user = User::findOrFail($id);
+        $user = Auth::user(); // Mengambil pengguna yang sedang login
     
-        // Validate input
+        // Validasi input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'old_password' => 'nullable|string',
             'new_password' => 'nullable|string|confirmed|min:6',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
     
-        // Update name and email
+        // Update name dan email
         $user->name = $request->input('name');
         $user->email = $request->input('email');
     
-        // Update password if provided
+        // Update password jika ada input
         if ($request->filled('old_password') && $request->filled('new_password')) {
             if (Hash::check($request->input('old_password'), $user->password)) {
                 $user->password = Hash::make($request->input('new_password'));
@@ -49,19 +49,20 @@ class ProfileController extends Controller
             }
         }
     
-        // Handle profile photo update
+        // Update foto profil jika ada
         if ($request->hasFile('photo')) {
             if ($user->photo && Storage::exists('public/' . $user->photo)) {
-                Storage::delete('public/' . $user->photo);
+                Storage::delete('public/' . $user->photo); // Hapus file lama
             }
     
             $path = $request->file('photo')->store('public/photos');
-            $user->photo = str_replace('public/', '', $path);
+            $user->photo = str_replace('public/', '', $path); // Simpan path foto
         }
     
-        // Save updated user information
+        // Simpan perubahan
         $user->save();
     
         return redirect()->route('profile.show')->with('success', 'Profile updated successfully!');
     }
+    
 }

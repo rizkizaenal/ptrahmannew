@@ -89,7 +89,11 @@
     </table>
 
     <div class="d-flex justify-content-end mt-3">
-        <a href="{{ route('dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
+    @if(Auth::user()->role == 'user')
+    <a href="{{ route('dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
+@elseif(Auth::user()->role == 'super_admin')
+    <a href="{{ route('super_admin.dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
+@endif
     </div>
 </div>
 @endsection

@@ -76,7 +76,7 @@ class AgendaController extends Controller
         // Validasi data
         $validatedData = $request->validate([
             'acara_kegiatan' => 'required|string|max:255',
-            'pakaian' => 'required|string|max:255',
+            'pakain' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
             'diikuti_oleh' => 'required|string|max:255',
             'keterangan' => 'required|string',
@@ -89,7 +89,7 @@ class AgendaController extends Controller
     
         // Temukan agenda berdasarkan ID
         $agenda = Agenda::findOrFail($id);
-    
+        
         // Perbarui data
         $agenda->update($validatedData);
     
@@ -99,12 +99,24 @@ class AgendaController extends Controller
             $agenda->dokumen_data_pendukung = $file;
             $agenda->save();
         }
-    
+
+        // Update data agenda
+        $agenda->update([
+            'tanggal' => $validatedData['tanggal'],
+            'waktu' => $validatedData['waktu'],
+            'acara_kegiatan' => $validatedData['acara_kegiatan'],
+            'pakaian' => $validatedData['pakaian'],
+            'tempat' => $validatedData['tempat'],
+            'diikuti_oleh' => $validatedData['diikuti_oleh'],
+            'keterangan' => $validatedData['keterangan'],
+            'link_surat' => $validatedData['link_surat'],
+            'laporan_kegiatan' => $validatedData['laporan_kegiatan'],
+            'dokumen_data_pendukung' => $dokumen,
+        ]);
+
         // Redirect dengan pesan sukses
         return redirect()->route('agenda.index')->with('success', 'Agenda berhasil diperbarui!');
-    }
-
-    
+}
 
     // Menampilkan detail agenda
     public function show($id)

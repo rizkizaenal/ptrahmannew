@@ -161,7 +161,17 @@
         <div class="sidebar" id="sidebar">
             <a href="{{ route('super_admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
             <a href="{{route('super_admin.users')}}"><i class="fas fa-users"></i> Users</a>
-            <a href="#"><i class="fas fa-cogs"></i> Settings</a>
+            <div class="dropdown">
+                            <a href="#" id="formsDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-folder-open"></i> Forms
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="formsDropdown">
+                                <li><a href="{{ route('agenda.index') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
+                                <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
+                            </ul>
+                        </div>
             <a href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i> Logout

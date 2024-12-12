@@ -35,7 +35,7 @@ class AtensiController extends Controller
             'uraian_kegiatan' => 'required|string',
             'saran_tindak_lanjut' => 'required|string',
             'penutup' => 'required|string',
-            'file' => 'nullable|file|mimes:pdf,jpg,png|max:2048',
+            'file' => 'nullable|file|mimes:pdf,jpg,png',
         ]);
 
         // Simpan data

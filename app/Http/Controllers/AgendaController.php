@@ -76,7 +76,7 @@ class AgendaController extends Controller
         // Validasi data
         $validatedData = $request->validate([
             'acara_kegiatan' => 'required|string|max:255',
-            'pakain' => 'required|string|max:255',
+            'pakaian' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
             'diikuti_oleh' => 'required|string|max:255',
             'keterangan' => 'required|string',
@@ -94,11 +94,14 @@ class AgendaController extends Controller
         $agenda->update($validatedData);
     
         // Jika ada file baru, unggah dan simpan path-nya
+        $dokumen = null; // Berikan nilai default null
+
         if ($request->hasFile('dokumen_data_pendukung')) {
-            $file = $request->file('dokumen_data_pendukung')->store('dokumen_data_pendukung', 'public');
-            $agenda->dokumen_data_pendukung = $file;
-            $agenda->save();
+            $dokumen = $request->file('dokumen_data_pendukung')->store('dokumen', 'public');
         }
+        
+        $data['dokumen_data_pendukung'] = $dokumen;
+        
 
         // Update data agenda
         $agenda->update([

@@ -34,37 +34,6 @@ Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     
-        Route::get('/', [AgendaController::class, 'index'])->name('agenda.index');
-        Route::get('/create', [AgendaController::class, 'create'])->name('agenda.create');
-        Route::post('/', [AgendaController::class, 'store'])->name('agenda.store');
-        Route::get('/{id}/edit', [AgendaController::class, 'edit'])->name('agenda.edit');
-        Route::put('/{id}', [AgendaController::class, 'update'])->name('agenda.update');
-        Route::delete('/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
-        Route::get('/export', [AgendaController::class, 'export'])->name('agenda.export');
-    
-
-   
-        // Menampilkan daftar atensi
-        Route::get('/atensi', [AtensiController::class, 'index'])->name('atensi.index');
-        
-        // Menampilkan form untuk membuat atensi baru
-        Route::get('/atensi/create', [AtensiController::class, 'create'])->name('atensi.create');
-        
-        // Menyimpan data atensi baru
-        Route::post('/atensi/store', [AtensiController::class, 'store'])->name('atensi.store');
-        
-        // Menampilkan detail satu atensi
-        Route::get('/atensi/{id}', [AtensiController::class, 'show'])->name('atensi.show');
-        
-        // Menampilkan form edit atensi
-        Route::get('/atensi/{id}/edit', [AtensiController::class, 'edit'])->name('atensi.edit');
-        
-        // Mengupdate data atensi yang ada
-        Route::put('/atensi/{id}', [AtensiController::class, 'update'])->name('atensi.update');
-        
-        // Menghapus data atensi
-        Route::delete('/atensi/{id}', [AtensiController::class, 'destroy'])->name('atensi.destroy');
-    
     
 });
 
@@ -98,6 +67,13 @@ Route::get('/super_admin/show/{id}/{type}', [SuperAdminController::class, 'show'
 Route::delete('/superadmin/profile/{id}/delete', [SuperAdminController::class, 'destroy'])->name('superadmin.profile.delete');
 
 
+Auth::routes();
+
+});
+
+Route::middleware(['auth', 'check.roles:user,super_admin'])->group(function () {
+    
+
     Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
     Route::get('/create', [AgendaController::class, 'create'])->name('agenda.create');
     Route::post('/', [AgendaController::class, 'store'])->name('agenda.store');
@@ -130,9 +106,8 @@ Route::delete('/superadmin/profile/{id}/delete', [SuperAdminController::class, '
     Route::delete('/atensi/{id}', [AtensiController::class, 'destroy'])->name('atensi.destroy');
 
 
-Auth::routes();
-
 });
+
 Auth::routes();
 
 

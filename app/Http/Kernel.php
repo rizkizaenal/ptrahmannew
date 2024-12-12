@@ -69,6 +69,8 @@ class Kernel extends HttpKernel
         // Middleware lainnya...
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'role.redirect' => \App\Http\Middleware\RedirectIfRole::class,
+        'check.roles' => \App\Http\Middleware\CheckRoles::class,
+
 ];
     
 }

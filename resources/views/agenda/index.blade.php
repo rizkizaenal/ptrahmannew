@@ -68,7 +68,7 @@
                     <td>{{ $agenda->laporan_kegiatan }}</td>
                     <td>
                         @if($agenda->dokumen_data_pendukung)
-                        <a href="{{ asset($agenda->dokumen_data_pendukung) }}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
+                        <a href="{{ Storage::url($agenda->dokumen_data_pendukung) }}" target="_blank" class="btn btn-secondary btn-sm">Download</a>
                         @endif
                     </td>
                     <td>

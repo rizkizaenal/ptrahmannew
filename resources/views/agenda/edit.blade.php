@@ -63,13 +63,12 @@
         </div>
 
         <div class="form-group">
-            <label for="dokumen_data_pendukung">Dokumen Data Pendukung</label>
-            <input type="file" name="dokumen_data_pendukung" id="dokumen_data_pendukung" class="form-control">
-            @if ($agenda->dokumen_data_pendukung)
-                <p><a href="{{ Storage::url($agenda->dokumen_data_pendukung) }}" target="_blank">Lihat Dokumen Lama</a></p>
-            @endif
-        </div>
-
+    <label for="dokumen_data_pendukung">Dokumen Data Pendukung</label>
+    <input type="file" name="dokumen_data_pendukung" id="dokumen_data_pendukung" class="form-control" accept="image/jpeg, image/png">
+    @if ($agenda->dokumen_data_pendukung)
+        <p><a href="{{ Storage::url($agenda->dokumen_data_pendukung) }}" target="_blank">Lihat Dokumen Lama</a></p>
+    @endif
+</div>
         <button type="submit" class="btn btn-primary">Simpan</button>
     </form>
 </div>

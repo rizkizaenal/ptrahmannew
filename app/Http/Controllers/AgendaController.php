@@ -73,53 +73,41 @@ class AgendaController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi data
+        // Validasi input
         $validatedData = $request->validate([
+            'tanggal' => 'required|date',
+            'waktu' => 'required',
             'acara_kegiatan' => 'required|string|max:255',
             'pakaian' => 'required|string|max:255',
             'tempat' => 'required|string|max:255',
-            'diikuti_oleh' => 'required|string|max:255',
-            'keterangan' => 'required|string',
-            'tanggal' => 'required|date',
-            'waktu' => 'required|string',
-            'link_surat' => 'required|url',
+            'diikuti_oleh' => 'nullable|string',
+            'keterangan' => 'nullable|string',
+            'link_surat' => 'nullable|url',
             'laporan_kegiatan' => 'nullable|string',
-            'dokumen_data_pendukung' => 'nullable|file|mimes:pdf,doc,docx',
+            'dokumen_data_pendukung' => 'nullable|file|mimes:jpg,jpeg,png|max:2048', // Hanya gambar
         ]);
     
-        // Temukan agenda berdasarkan ID
+        // Cari agenda berdasarkan ID
         $agenda = Agenda::findOrFail($id);
-        
-        // Perbarui data
-        $agenda->update($validatedData);
     
-        // Jika ada file baru, unggah dan simpan path-nya
-        $dokumen = null; // Berikan nilai default null
-
+        // Jika ada file baru yang diunggah
         if ($request->hasFile('dokumen_data_pendukung')) {
-            $dokumen = $request->file('dokumen_data_pendukung')->store('dokumen', 'public');
+            // Hapus file lama jika ada
+            if ($agenda->dokumen_data_pendukung) {
+                Storage::delete($agenda->dokumen_data_pendukung);
+            }
+    
+            // Simpan file baru
+            $validatedData['dokumen_data_pendukung'] = $request->file('dokumen_data_pendukung')->store('images', 'public');
         }
-        
-        $data['dokumen_data_pendukung'] = $dokumen;
-        
+    
 
-        // Update data agenda
-        $agenda->update([
-            'tanggal' => $validatedData['tanggal'],
-            'waktu' => $validatedData['waktu'],
-            'acara_kegiatan' => $validatedData['acara_kegiatan'],
-            'pakaian' => $validatedData['pakaian'],
-            'tempat' => $validatedData['tempat'],
-            'diikuti_oleh' => $validatedData['diikuti_oleh'],
-            'keterangan' => $validatedData['keterangan'],
-            'link_surat' => $validatedData['link_surat'],
-            'laporan_kegiatan' => $validatedData['laporan_kegiatan'],
-            'dokumen_data_pendukung' => $dokumen,
-        ]);
+    // Update data agenda
+    $agenda->update($validatedData);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('agenda.index')->with('success', 'Agenda berhasil diperbarui!');
-}
+    // Redirect ke halaman daftar agenda
+    return redirect()->route('agenda.index')->with('success', 'Agenda berhasil diperbarui.');
+}    
 
     // Menampilkan detail agenda
     public function show($id)

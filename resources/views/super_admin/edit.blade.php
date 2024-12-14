@@ -55,7 +55,7 @@
             display: flex;
             justify-content: center;
             padding: 15px;
-            background-color: #343a40;
+            background-color: #9ABF80;
             color: white;
         }
     </style>
@@ -100,7 +100,7 @@
                             <label for="photo" class="form-label">Change Profile Photo</label>
                             <input type="file" name="photo" class="form-control" id="photo">
                         </div>
-                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                        <button type="submit" class="btn btn-warning">Update Profile</button>
                     </div>
                 </div>
             </form>
@@ -112,7 +112,7 @@
                 <button type="submit" class="btn btn-danger">Remove Profile Photo</button>
             </form>
 
-            <a href="{{ route('super_admin.dashboard') }}" class="btn btn-secondary mt-4">Back to Dashboard</a>
+            <a href="{{ route('super_admin.dashboard') }}" class="btn btn-success mt-4">Back to Dashboard</a>
         </div>
     </div>
 </body>

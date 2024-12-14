@@ -116,15 +116,22 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .dashboard-card:nth-child(1) {
-            background-color: #f8d7da;
-        }
-        .dashboard-card:nth-child(2) {
-            background-color: #d1ecf1;
-        }
-        .dashboard-card:nth-child(3) {
-            background-color: #d4edda;
-        }
+
+ .dashboard-card:nth-child(1) {
+    background-color: #B6C7AA; /* Hijau pastel */
+}
+
+.dashboard-card:nth-child(2) {
+    background-color: #F05A7E; /* Merah terang */
+}
+
+.dashboard-card:nth-child(3) {
+    background-color: #B6C7AA; /* Hijau pastel */
+}
+
+.dashboard-card:nth-child(4) {
+    background-color: #F05A7E; /* Merah terang */
+}
 
         /* Styling tabel users */
         .user-table-section {
@@ -222,31 +229,26 @@
         @endif
     </div>
 </td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->email }}</td>
-                                <td>
+ <td>{{ $user->name }}</td>
+<td>{{ $user->email }}</td>
+ <td>
     @if($user->role === 'admin')
         <i class="fas fa-check-circle text-success" title="Admin"></i>
-    @elseif($user->role === 'super_admin')
-        <i class="fas fa-check-circle text-success" title="Superadmin"></i>
-    @else
-        <i class="fas fa-times-circle text-danger" title="User Biasa"></i>
-    @endif
-</td>
-
+              @elseif($user->role === 'super_admin')
+                 <i class="fas fa-check-circle text-success" title="Superadmin"></i>
+                    @else
+                      <i class="fas fa-times-circle text-danger" title="User Biasa"></i>
+                            @endif
+                              </td>
                                 <td>
                                 <a href="{{ route('superadmin.profile.edit', $user->id) }}" ><i class="fas fa-edit"></i></a>
                                 <a href="#" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $user->id }}').submit();">
-    <i class="fas fa-trash"></i>
-</a>
-
-<form id="delete-form-{{ $user->id }}" action="{{ route('superadmin.profile.delete', $user->id) }}" method="POST" style="display: none;">
-    @csrf
-    @method('DELETE')
-</form>
-
-
-                                    
+                              <i class="fas fa-trash"></i>
+                            </a>
+                             <form id="delete-form-{{ $user->id }}" action="{{ route('superadmin.profile.delete', $user->id) }}" method="POST" style="display: none;">
+                                @csrf
+                                @method('DELETE')
+                                </form>
                                 </td>
                             </tr>
                             @endforeach

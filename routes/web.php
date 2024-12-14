@@ -82,6 +82,7 @@ Route::middleware(['auth', 'check.roles:user,super_admin'])->group(function () {
     Route::delete('/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
     Route::get('/export', [AgendaController::class, 'export'])->name('agenda.export');
 
+    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
 
     // Menampilkan daftar atensi

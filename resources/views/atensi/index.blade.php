@@ -46,6 +46,13 @@
         .export-button {
             left: 20px;
         }
+        .fixed-back-button {
+    position: fixed; /* Posisi tetap di layar */
+    bottom: 20px;    /* Jarak dari bawah layar */
+    right: 20px;     /* Jarak dari kanan layar */
+    z-index: 1000;   /* Pastikan berada di atas elemen lain */
+}
+
     </style>
 
     <!-- Tabel Daftar Atensi -->
@@ -92,10 +99,10 @@
     </table>
 </div>
 <div class="d-flex justify-content-end mt-3">
-@if(Auth::user()->role == 'user')
-    <a href="{{ route('dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
-@elseif(Auth::user()->role == 'super_admin')
-    <a href="{{ route('super_admin.dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
-@endif
-    </div>
+    @if(Auth::user()->role == 'user')
+        <a href="{{ route('dashboard') }}" class="btn btn-primary px-4 back-button fixed-back-button">Back</a>
+    @elseif(Auth::user()->role == 'super_admin')
+        <a href="{{ route('super_admin.dashboard') }}" class="btn btn-primary px-4 back-button fixed-back-button">Back</a>
+    @endif
+</div>
 @endsection

@@ -36,6 +36,13 @@
         .back-button {
             margin-top: 20px; /* Memberi jarak dari tabel */
         }
+        .fixed-back-button {
+    position: fixed;
+    bottom: 20px; /* Jarak dari bawah layar */
+    right: 20px; /* Jarak dari kanan layar */
+    z-index: 1000; /* Pastikan berada di atas elemen lain */
+}
+
     </style>
 
     <table class="table table-bordered">
@@ -90,10 +97,10 @@
 
     <div class="d-flex justify-content-end mt-3">
     @if(Auth::user()->role == 'user')
-    <a href="{{ route('dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
-@elseif(Auth::user()->role == 'super_admin')
-    <a href="{{ route('super_admin.dashboard') }}" class="btn btn-primary px-4 back-button">Back</a>
-@endif
-    </div>
+    <a href="{{ route('dashboard') }}" class="btn btn-primary px-4 back-button fixed-back-button">Back</a>
+    @elseif(Auth::user()->role == 'super_admin')
+    <a href="{{ route('super_admin.dashboard') }}" class="btn btn-primary px-4 back-button fixed-back-button">Back</a>
+    @endif
+</div>
 </div>
 @endsection

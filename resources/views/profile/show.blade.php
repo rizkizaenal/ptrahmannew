@@ -46,7 +46,7 @@
             margin-bottom: 15px;
         }
         .top-bar {
-            background-color: #CC2B52;
+            background-color: #A9BFA8;
             color: white;
             padding: 15px;
             text-align: center;

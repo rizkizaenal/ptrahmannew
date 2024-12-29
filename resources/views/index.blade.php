@@ -100,11 +100,12 @@
         }
 
         .search-bar {
-            position: relative;
-            width: 30%;
-            margin-left:966px
-        }
-
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-radius: 8px; /* Membuat sudut membulat */
+}
         .search-bar input {
             width: 100%;
             padding: 10px 40px 10px 10px;
@@ -188,7 +189,30 @@
             width: 100%;
             height: auto;
             border-radius: 5px;
+            opacity: 0.8;
         }
+
+        .banner::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.1); /* Warna hitam dengan transparansi 50% */
+    z-index: 1; /* Pastikan overlay berada di atas gambar */
+}
+
+.banner .text-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-40%, -40%);
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    z-index: 2; /* Pastikan teks berada di atas overlay */
+}
 
         .overlay-text {
             position: absolute;

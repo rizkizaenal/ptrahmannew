@@ -12,8 +12,6 @@ class AgendaController extends Controller
     // Menampilkan daftar agenda
     public function index() 
     { 
-        // Hapus agenda yang lebih dari setahun 
-        Agenda::where('tanggal', '<', Carbon::now()->subYear())->delete(); 
  
         // Mengambil data agenda terbaru berdasarkan data yang diubah terakhir 
         $agendas = Agenda::orderBy('updated_at', 'desc')->get(); 

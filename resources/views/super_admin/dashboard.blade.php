@@ -104,26 +104,50 @@
 
         /* Styling untuk dashboard overview */
         .dashboard-overview {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
 
-        .dashboard-card {
-            flex: 1;
-            padding: 20px;
-            margin: 10px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+.dashboard-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: #17a2b8; /* Warna background (ubah sesuai keinginan) */
+    color: white; /* Warna teks putih */
+    border-radius: 10px; /* Membuat sudut melengkung */
+    width: 500px;
+    height: 150px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Efek bayangan */
+    cursor: pointer; /* Memberikan efek klik */
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: scale(1.05); /* Memberikan efek zoom saat hover */
+    background-color: #138496; /* Warna background saat hover */
+}
+ 
+.dashboard-card .display-5 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+.dashboard-card h5 {
+    font-size: 1.2rem;
+    margin: 10px 0 0;
+}
 
         .dashboard-card:nth-child(1) {
-            background-color: #f8d7da;
+            background-color: #939185;
         }
 
         .dashboard-card:nth-child(2) {
-            background-color: #d1ecf1;
+            background-color: #cf1345;
         }
 
         .modal-dialog.modal-lg {

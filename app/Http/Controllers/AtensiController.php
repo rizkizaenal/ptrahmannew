@@ -95,6 +95,7 @@ if ($request->hasFile('file')) {
         }
     }
 
+    
     // Menghapus data atensi
     public function destroy($id)
     {
@@ -113,6 +114,8 @@ if ($request->hasFile('file')) {
             return redirect()->back()->withErrors(['error' => 'Terjadi kesalahan saat menghapus data: ' . $e->getMessage()]);
         }
     }
+
+
     public function show($id)
 {
     $atensi = Atensi::find($id);
@@ -120,17 +123,11 @@ if ($request->hasFile('file')) {
     if (!$atensi) {
         return redirect()->route('atensi.index')->with('error', 'Data tidak ditemukan');
     }
-    
     return view('atensi.show', compact('atensi')); // Mengarahkan ke view dengan data
 }
-public function getLatestAtensis()
-{
-   
-    return Atensi::orderBy('tanggal', 'desc')->take(5)->get();
-}
+
 private function removeOldAtensis()
 {
-   
     $count = Atensi::count();
     if ($count > 5) {
        atensi::orderBy('tanggal', 'asc')->take($count - 5)->delete();

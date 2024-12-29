@@ -104,19 +104,34 @@
 
         /* Styling untuk dashboard overview */
         .dashboard-overview {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        .dashboard-card {
-            flex: 1;
-            padding: 20px;
-            margin: 10px;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    .dashboard-card {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        background-color: #007bff; /* Warna background biru */
+        color: white; /* Warna teks putih */
+        border-radius: 10px; /* Membuat sudut kotak melengkung */
+        width: 1000px;
+        height: 150px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        text-align: center;
+    }
+    .dashboard-card .display-5 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin: 0;
+    }
 
+    .dashboard-card h5 {
+        font-size: 1.2rem;
+        margin: 10px 0 0;
+    }
  .dashboard-card:nth-child(1) {
     background-color: #B6C7AA; /* Hijau pastel */
 }
@@ -137,6 +152,8 @@
         .user-table-section {
             margin-top: 20px;
         }
+
+        
     </style>
 </head>
 <body>

@@ -8,7 +8,9 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\SuperAdminController;
 use App\Exports\AgendaExport;
+use App\Http\Controllers\DocumentController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Halaman utama
 Route::get('/', function () {
@@ -33,8 +35,8 @@ Route::get('/home', function () {
 Route::middleware(['auth', 'role:user'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    
-    
+
+
 });
 
 // Rute untuk profil
@@ -72,7 +74,7 @@ Auth::routes();
 });
 
 Route::middleware(['auth', 'check.roles:user,super_admin'])->group(function () {
-    
+
 
     Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda.index');
     Route::get('/create', [AgendaController::class, 'create'])->name('agenda.create');
@@ -82,31 +84,35 @@ Route::middleware(['auth', 'check.roles:user,super_admin'])->group(function () {
     Route::delete('/{id}', [AgendaController::class, 'destroy'])->name('agenda.destroy');
     Route::get('/export', [AgendaController::class, 'export'])->name('agenda.export');
 
-    Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
+    // Route::put('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
 
     // Menampilkan daftar atensi
     Route::get('/atensi', [AtensiController::class, 'index'])->name('atensi.index');
-    
+
     // Menampilkan form untuk membuat atensi baru
     Route::get('/atensi/create', [AtensiController::class, 'create'])->name('atensi.create');
-    
+
     // Menyimpan data atensi baru
     Route::post('/atensi/store', [AtensiController::class, 'store'])->name('atensi.store');
-    
+
     // Menampilkan detail satu atensi
     Route::get('/atensi/{id}', [AtensiController::class, 'show'])->name('atensi.show');
-    
+
     // Menampilkan form edit atensi
     Route::get('/atensi/{id}/edit', [AtensiController::class, 'edit'])->name('atensi.edit');
-    
+
     // Mengupdate data atensi yang ada
     Route::put('/atensi/{id}', [AtensiController::class, 'update'])->name('atensi.update');
-    
+
     // Menghapus data atensi
     Route::delete('/atensi/{id}', [AtensiController::class, 'destroy'])->name('atensi.destroy');
 
 
+});
+// Rute Admin
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 });
 
 Auth::routes();
@@ -123,3 +129,14 @@ Route::post('/logout', function () {
     Auth::logout();
     return redirect('/'); // Mengarahkan ke halaman utama
 })->name('logout');
+
+
+
+Route::get('/documents', [DocumentController::class, 'index'])->name('documents.index');
+Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
+Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
+Route::get('/documents/{id}/edit', [DocumentController::class, 'edit'])->name('documents.edit');
+Route::put('/documents/{id}', [DocumentController::class, 'update'])->name('documents.update');
+Route::get('/documents/{id}', [DocumentController::class, 'show'])->name('documents.show');
+Route::delete('/documents/{id}', [DocumentController::class, 'destroy'])->name('documents.destroy');
+Route::get('/documents/clear', [DocumentController::class, 'clearAll'])->name('documents.clearAll');

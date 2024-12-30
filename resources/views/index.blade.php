@@ -307,11 +307,11 @@
     </style>
 </head>
 <body>
-    
+
     <div class="d-flex flex-column">
         <div class="top-bar">
             <div class="d-flex align-items-center">
-                
+
                 <i class="fas fa-bars menu-icon" onclick="toggleSidebar()"></i>
                 <img src="{{ asset('img/lapas.png') }}" alt="Logo" class="logo">
                 <span class="title">JurnalLasgar</span>
@@ -321,16 +321,16 @@
                 <div class="dropdown">
     <a href="#" id="accountDropdown" data-bs-toggle="dropdown" aria-expanded="false">
     @if($user->photo)
-            <img src="{{ asset('storage/' . $user->photo) }}" 
-                 alt="Profile Photo" 
+            <img src="{{ asset('storage/' . $user->photo) }}"
+                 alt="Profile Photo"
                  class="img-thumbnail">
         @else
-        <svg xmlns="http://www.w3.org/2000/svg" 
-                     width="50" 
-                     height="50" 
-                     fill="currentColor" 
-                     class="bi bi-person-fill img-thumbnail" 
-                     viewBox="0 0 16 16" 
+        <svg xmlns="http://www.w3.org/2000/svg"
+                     width="50"
+                     height="50"
+                     fill="currentColor"
+                     class="bi bi-person-fill img-thumbnail"
+                     viewBox="0 0 16 16"
                      style="display: block; margin: auto;">
                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
                 </svg>
@@ -340,7 +340,7 @@
         <li><a href="{{ route('profile.show') }}"><i class="fas fa-user"></i> Profile</a></li>
         <li><hr class="dropdown-divider"></li>
         <li>
-            <a href="{{ route('logout') }}" 
+            <a href="{{ route('logout') }}"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                 <i class="fas fa-sign-out-alt"></i> Logout
             </a>
@@ -354,7 +354,7 @@
         </div>
         <div class="sidebar-and-content">
         <div class="sidebar" id="sidebar">
-   
+
                         <!-- Sidebar for other roles -->
                         <a href="{{ route('dashboard')}}"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
                         <div class="dropdown">
@@ -364,12 +364,13 @@
                             <ul class="dropdown-menu" aria-labelledby="formsDropdown">
                                 <li><a href="{{ route('agenda.index') }}"><i class="fas fa-calendar-alt"></i> Agenda</a></li>
                                 <li><a href="{{ route('atensi.index') }}"><i class="fas fa-list"></i> Atensi</a></li>
+                                <li><a href="{{ route('documents.index') }}"><i class="fas fa-list"></i> surat</a></li>
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a href="#"><i class="fas fa-plus"></i> Another Form</a></li>
                             </ul>
                         </div>
-                   
-</div> 
+
+</div>
 
             </div>
             <div class="main-content" id="mainContent">
